@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
-    <title>Dungeon Tracking</title>
+    <title>Dungeon Mapper</title>
     <script src="dungeon.js" type="text/javascript"></script>
 
     <style type="text/css">
@@ -104,6 +104,9 @@
             padding: 0px 10px;
         }
 
+        #config h3, #config ul {
+            display:inline;
+        }
         #links {
             margin: 20px 0px;
         }
@@ -206,26 +209,17 @@
 </div>
 
 <div id="config">
-    <h2>Config</h2>
+    <h3>Config:</h3>
     <ul>
         <li><button onclick="newCellType()">New tile type</button></li>
-        <li><button onclick="clearMap()">New map</a></li>
+        <li><button onclick="clearMap()">Clear map</button></li>
+        <li><a class="button" id="exportLink" onClick="exportMap()">Download Map</a> <span style="color:red;font-weight:bold">&lt;- Don't Forget To Save!!!</span></li>
     </ul>
+    <div id="links">
+        <button id="loadbutton" onClick="loadMap()" disabled>Load Saved Map</button>
+        <input type="file" id="uploadfile" onchange="enableLoad()" />
+        <!--todo style? see https://stackoverflow.com/a/25825731/-->
+    </div>
 </div>
-
-<div id="links">
-    <a class="button" id="exportLink" onClick="exportMap()">Download Map</a><br /><br />
-    <!--todo style? see https://stackoverflow.com/a/25825731/-->
-    <input type="file" id="uploadfile" onchange="enableLoad()" />
-    <button id="loadbutton" onClick="loadMap()" disabled>Load Saved Map</button>
-</div>
-
-<div>
-    <h2>To Do</h2>
-    <ul>
-        <li>auto-save / save to local storage??</li>
-    </ul>
-</div>
-
 </body>
 </html>

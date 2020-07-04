@@ -19,9 +19,9 @@ var data = [];
 
 // Some default tiles and markers
 var cellTypes = {
-    "explored": "#eec",
-    "rock": "#444",
-    "darkness": "#000"
+    "explored": "#eeeecc",
+    "rock": "#444444",
+    "darkness": "#000000"
 };
 var cellMarkTypes = { // 30x30px; not directional
     "ladder_up": "icons/ladder_up.png",
@@ -33,7 +33,7 @@ var cellMarkTypes = { // 30x30px; not directional
     "elevator": "icons/elevator.png",
     "teleporter": "icons/teleporter.png"
 };
-var edgeTypes = {"wall": "#444"};//, "door": "#faf"};
+var edgeTypes = {"wall": "#444444"};//, "door": "#ffaaff"};
 var edgeMarkTypes = { // 10x30px; are directional
     "door": "icons/door_v.png",
     "door_v_1r": "icons/door_v_1r.png",
@@ -79,7 +79,7 @@ window.onload = function() {
 function newCellType() {
     var cellName = prompt("Enter tile name:\n(Entering an existing tile name will change its color instead.)");
     var cellColor = prompt("Enter hex color code (e.g. #ffffff)");
-    if (!cellColor.startsWith("#") || (cellColor.length != 4 || cellColor.length != 7)) {
+    if (!cellColor.startsWith("#") || cellColor.length != 7) {
         alert("Invalid color, please try again");
         return;
     }
@@ -135,7 +135,6 @@ function drawGrid() {
 }
 
 function handleClick(event) {
-    console.log("click");
     // place tile
     var clickX = event.pageX - canvas.offsetLeft;
     var clickY = event.pageY - canvas.offsetTop;
@@ -159,7 +158,6 @@ function handleClick(event) {
 }
 
 function handleRightClick(event) {
-    console.log("right click");
     // place icon
     event.preventDefault();
     
@@ -185,7 +183,6 @@ function handleRightClick(event) {
 }
 
 function handleDoubleClick(event) {
-    console.log("double click");
     // Erase element
     var clickX = event.pageX - canvas.offsetLeft;
     var clickY = event.pageY - canvas.offsetTop;
@@ -242,7 +239,6 @@ function handleDoubleClick(event) {
         for (i = 0; i < data[currentFloor].cells.length; i++) {
             var pt = data[currentFloor].cells[i];
             if (pt.x == x && pt.y == y) {
-                console.log("deleted",pt);
                 data[currentFloor].cells.splice(i, 1);
                 break;
             }
@@ -401,6 +397,18 @@ function parseMap(e) {
     redrawMap();
 }
 
+function isDarkColor(c) {
+    // https://stackoverflow.com/a/12043228/ ... kinda
+    var c = c.substring(1);      // strip #
+    var rgb = parseInt(c, 16);   // convert rrggbb to decimal
+    var r = (rgb >> 16) & 0xff;  // extract red
+    var g = (rgb >>  8) & 0xff;  // extract green
+    var b = (rgb >>  0) & 0xff;  // extract blue
+
+    var luma = 0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
+    return (luma < 150);
+}
+
 function createPalette() {
     // Cells
     var cellDiv = document.getElementById("cells");
@@ -409,7 +417,11 @@ function createPalette() {
         var btn = document.createElement("button");
         btn.setAttribute("onclick", "changeSelectedCellType('" + key + "')");
         btn.innerHTML = key;
-        btn.style = "background-color: " + value;
+        if (isDarkColor(value)) {
+            btn.style = "background-color: " + value + "; color:white";
+        } else {
+            btn.style = "background-color: " + value;
+        }
         cellDiv.appendChild(btn);
 
         if (key == currentCellType) {
@@ -858,9 +870,9 @@ function drawEdge(pt) {
                 xpx = WIDTH * PX_CELL;
                 ctx.fillRect(
                     xpx - PX_WALL_WIDTH/2,
-                    ypx + PX_WALL_WIDTH/2,
+                    ypx,// + PX_WALL_WIDTH/2,
                     PX_WALL_WIDTH,
-                    PX_CELL - PX_WALL_WIDTH);
+                    PX_CELL);// - PX_WALL_WIDTH);
             }
         } else if (pt.rotation%90 == 0) {
             // Horizontal
@@ -874,9 +886,9 @@ function drawEdge(pt) {
             if (pt.y == 0) {
                 ypx = HEIGHT * PX_CELL;
                 ctx.fillRect(
-                    xpx + PX_WALL_WIDTH/2,
+                    xpx,// + PX_WALL_WIDTH/2,
                     ypx - PX_WALL_WIDTH/2,
-                    PX_CELL - PX_WALL_WIDTH,
+                    PX_CELL,// - PX_WALL_WIDTH,
                     PX_WALL_WIDTH);
             }
         }

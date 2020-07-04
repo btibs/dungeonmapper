@@ -6,12 +6,12 @@
             "floors": 10
         },
         "cellTypes": {
-            "explored": "#eec",
-            "rock": "#444",
-            "darkness": "#000"
+            "explored": "#eeeecc",
+            "rock": "#444444",
+            "darkness": "#000000"
         },
         "edgeTypes": {
-            "wall": "#444"
+            "wall": "#444444"
         },
         "cellMarkTypes": {
             "ladder_up": "icons/ladder_up.png",
