@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Dungeon Tracking</title>
+    <script src="dungeon.js" type="text/javascript"></script>
+
+    <style type="text/css">
+        body, input {
+            font-family:Courier, Monospace;
+            font-size:12px;
+        }
+        body {
+            margin:10px 20px;
+        }
+        canvas {
+            border:1px solid black;
+            background:#999;
+        }
+        a {
+            color:blue;
+            text-decoration:underline;
+        }
+        button, a.button {
+            margin:5px 0px;
+            border:1px solid #888;
+            padding:3px;
+            background-color: #ddd;
+            color:black;
+            font-family:Courier, Monospace;
+            font-size:14px;
+            text-decoration:none;
+        }
+        button:disabled{
+            background-color: #aaa;
+            color:#777;
+        }
+        input {
+            border:1px solid black;
+        }
+        
+        .current {
+            background-color:#ff7;
+            border:2px solid black;
+        }
+
+        #controls {
+            display:inline-block;
+            vertical-align:top;
+            margin-left: 10px;
+            width: 300px;
+        }
+        #controls h2 {
+            margin-top:0px;
+        }
+        #controls ul, #config ul {
+            list-style-type: none;
+            padding:0px;
+        }
+        
+        #navigation {
+            border:1px solid black;
+            padding:10px;
+            width:170px;
+            text-align:center;
+            margin-top:10px;
+        }
+        #navigation button {
+            margin:2px;
+            font-size:15px;
+            width:30px;
+            height:30px;
+            font-family: Helvetica, Arial;
+        }
+        #navigation table {
+            margin:auto;
+        }
+        #navigation li {
+            display:inline;
+        }
+
+        #palette li, #config li {
+            display:inline;
+        }
+        #palette button {
+            margin-right: 10px;
+        }
+        #palette img {
+            margin-right: 5px;
+        }
+
+        #cells a {
+            padding:3px;
+        }
+        #cellmarks img {
+            width: 30px;
+            height: 30px;
+        }
+
+        #edgemarks img {
+            width: 10px;
+            height: 30px;
+            padding: 0px 10px;
+        }
+
+        #links {
+            margin: 20px 0px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Dungeon Mapper</h1>
+
+<!-- TODO for now just hard code -->
+<!--
+<div id="setup">
+    <h2>Create New Map</h2>
+    Floors: <input id="floors" type="number" min="1" max="10" step="1" value="1" size="2" />
+    <br/>
+    Grid Size: <input id="gridx" type="number" min="1" max="20" step="1" value="20" />
+    x
+    <input id="gridy" type="number" min="1" max="20" step="1" value="20" />
+    <br />
+    <button id="create" onclick="initGrid()">Create</button>
+</div>
+-->
+
+<div id="map">
+    <h2>Map</h2>
+    <canvas id="mapcanvas"></canvas>
+
+    <div id="controls">
+        <div id="palette">
+            <h2>Controls</h2>
+            <!-- color codes: placed w/left click -->
+            <h3>Tile Types</h3>
+            <div id="cells">
+                <!--
+                <a href="#">Explored</a>
+                <a href="#">Solid Rock</a>
+                <a href="#">Darkness</a> -->
+            </div>
+            
+            <!-- symbols: placed w/right click -->
+            <h3>Tile icons</h3>
+            <div id="cellmarks">
+                <!-- <ul>
+                    <li><a href="#">Stair</a></li>
+                    <li><a href="#">Stair Up</a></li>
+                    <li><a href="#">Stair Down</a></li>
+                    <li><a href="#">Elevator</a></li>
+                    <li><a href="#">Teleport</a></li>
+                    <li><a href="#">Trap</a></li>
+                </ul> -->
+            </div>
+
+            <h3>Wall icons</h3>
+            <div id="edgemarks">
+                <ul>
+                    <!--<li>Wall</li>
+                    <a href="#">Door</a>
+                    <a href="#">Door - One Way</a>
+                    <a href="#">Secret Door</a>
+                    <a href="#">Secret Door - One Way</a> -->
+                </ul>
+            </div>
+        </div>
+
+        <div id="navigation">
+            <table>
+                <tr>
+                    <td><button onclick="rotateLeft()">↶</button></td>
+                    <td />
+                    <td><button onclick="rotateRight()">↷</button></td>
+                </tr>
+                <tr>
+                    <td />
+                    <td><button onclick="moveUp()">↑</button></td>
+                    <td />
+                </tr>
+                <tr>
+                    <td><button onclick="moveLeft()">←</button></td>
+                    <td />
+                    <td><button onclick="moveRight()">→</button></td>
+                </tr>
+                <tr>
+                    <td />
+                    <td><button onclick="moveDown()">↓</button></td>
+                    <td />
+                </tr>
+            </table>
+            <div id="floors"><!-- filled in JS --></div>
+        </div>
+
+        <div id="help">
+            <ul>
+                <li>Left click: Place tiles and walls</li>
+                <li>Right click: Place icons</li>
+                <li>Double click: Clear tile or wall</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div id="config">
+    <h2>Config</h2>
+    <ul>
+        <li><button onclick="newCellType()">New tile type</button></li>
+        <li><button onclick="clearMap()">New map</a></li>
+    </ul>
+</div>
+
+<div id="links">
+    <a class="button" id="exportLink" onClick="exportMap()">Download Map</a><br /><br />
+    <!--todo style? see https://stackoverflow.com/a/25825731/-->
+    <input type="file" id="uploadfile" onchange="enableLoad()" />
+    <button id="loadbutton" onClick="loadMap()" disabled>Load Saved Map</button>
+</div>
+
+<div>
+    <h2>To Do</h2>
+    <ul>
+        <li>auto-save / save to local storage??</li>
+    </ul>
+</div>
+
+</body>
+</html>
