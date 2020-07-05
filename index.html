@@ -1,135 +1,28 @@
 <!DOCTYPE html>
 
-<html>
+<html class="theme-light">
 <head>
     <meta charset="UTF-8"/>
+    <link rel="shortcut icon" href="markers/pressF.png" type="image/png">
     <title>Dungeon Mapper</title>
     <script src="dungeon.js" type="text/javascript"></script>
-
-    <style type="text/css">
-        body, input {
-            font-family:Courier, Monospace;
-            font-size:12px;
-        }
-        body {
-            margin:10px 20px;
-        }
-        canvas {
-            border:1px solid black;
-            background:#999;
-        }
-        a {
-            color:blue;
-            text-decoration:underline;
-        }
-        button, a.button {
-            margin:5px 0px;
-            border:1px solid #888;
-            padding:3px;
-            background-color: #ddd;
-            color:black;
-            font-family:Courier, Monospace;
-            font-size:14px;
-            text-decoration:none;
-        }
-        button:disabled{
-            background-color: #aaa;
-            color:#777;
-        }
-        input {
-            border:1px solid black;
-        }
-        
-        .current {
-            background-color:#ff7;
-            border:2px solid black;
-        }
-
-        #controls {
-            display:inline-block;
-            vertical-align:top;
-            margin-left: 10px;
-            width: 300px;
-        }
-        #controls h2 {
-            margin-top:0px;
-        }
-        #controls ul, #config ul {
-            list-style-type: none;
-            padding:0px;
-        }
-        
-        #navigation {
-            border:1px solid black;
-            padding:10px;
-            width:170px;
-            text-align:center;
-            margin-top:10px;
-        }
-        #navigation button {
-            margin:2px;
-            font-size:15px;
-            width:30px;
-            height:30px;
-            font-family: Helvetica, Arial;
-        }
-        #navigation table {
-            margin:auto;
-        }
-        #navigation li {
-            display:inline;
-        }
-
-        #palette li, #config li {
-            display:inline;
-        }
-        #palette button {
-            margin-right: 10px;
-        }
-        #palette img {
-            margin-right: 5px;
-        }
-        #savebtn {
-            margin-right:2px;
-        }
-        #saveconfirm {
-            margin-right:10px;
-            color: #00cc00;
-            opacity: 0;
-            transition:opacity 250ms;
-        }
-
-        #cells a {
-            padding:3px;
-        }
-        #cellmarks img {
-            width: 30px;
-            height: 30px;
-        }
-
-        #edgemarks img {
-            width: 10px;
-            height: 30px;
-            padding: 0px 10px;
-        }
-
-        #config h3, #config ul {
-            display:inline;
-        }
-        #links {
-            margin: 20px 0px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Do+Hyeon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=VT323">
 </head>
 
 <body>
 
 <h1>Dungeon Mapper</h1>
+<div id="floorwrapper">
+    <h2>Floor:</h2>
+    <div id="floors"></div>
+</div>
 
 <!-- TODO for now just hard code -->
 <!--
 <div id="setup">
-    <h2>Create New Map</h2>
+    <h2>Generate New Map</h2>
     Floors: <input id="floors" type="number" min="1" max="10" step="1" value="1" size="2" />
     <br/>
     Grid Size: <input id="gridx" type="number" min="1" max="20" step="1" value="20" />
@@ -141,94 +34,64 @@
 -->
 
 <div id="map">
-    <canvas id="mapcanvas"></canvas>
+    <div>
+        <canvas id="mapcanvas"></canvas>
+        <div id="config">
+            <ul>
+                <li><button onclick="newCellType()">New Tile Type</button></li>
+                <li><a class="button" id="exportLink" onClick="exportMap()">Export Map File</a></li>
+                <li><button id="clearbtn" onclick="clearMap()" title="Wipes the current map. This cannot be undone! It will not affect your last save.">Clear Map</button></li>
+            </ul>
+            <div id="links">
+                <!--todo style? see https://stackoverflow.com/a/25825731/-->
+                <input type="file" id="uploadfile" onchange="enableLoad()" />
+                <button id="loadbutton" onClick="loadMap()" disabled>Load Map File</button>
+            </div>
+        </div>
+    </div>
     <div id="controls">
         <div id="palette">
-            <h2>Controls</h2>
-            <button onclick="saveMapLocalStorage()" style="margin-right:0px" >Save</button>
+            <!-- <h2>Controls</h2> -->
+            <button id="savebtn" onclick="saveMapLocalStorage()" title="Save map data in browser storage. This will be lost if you clear browser data! If you plan to do that, export the file instead when you are done.">Save</button>
             <span id="saveconfirm">✔</span>
-            <button onclick="loadMapLocalStorage()">Load Last Save</button>
-            <!-- color codes: placed w/left click -->
-            <h3>Tile Types</h3>
-            <div id="cells">
-                <!--
-                <a href="#">Explored</a>
-                <a href="#">Solid Rock</a>
-                <a href="#">Darkness</a> -->
-            </div>
+            <button onclick="loadMapLocalStorage()" title="Load map data from browser storage">Load Last Save</button>
             
-            <!-- symbols: placed w/right click -->
-            <h3>Tile icons</h3>
-            <div id="cellmarks">
-                <!-- <ul>
-                    <li><a href="#">Stair</a></li>
-                    <li><a href="#">Stair Up</a></li>
-                    <li><a href="#">Stair Down</a></li>
-                    <li><a href="#">Elevator</a></li>
-                    <li><a href="#">Teleport</a></li>
-                    <li><a href="#">Trap</a></li>
-                </ul> -->
-            </div>
+            <h3>Tile Types</h3>
+            <div id="cells"></div>
+            
+            <h3>Tile Icons</h3>
+            <div id="cellmarks"></div>
 
-            <h3>Wall icons</h3>
-            <div id="edgemarks">
-                <ul>
-                    <!--<li>Wall</li>
-                    <a href="#">Door</a>
-                    <a href="#">Door - One Way</a>
-                    <a href="#">Secret Door</a>
-                    <a href="#">Secret Door - One Way</a> -->
-                </ul>
-            </div>
+            <h3>Wall Icons</h3>
+            <div id="edgemarks"></div>
         </div>
 
         <div id="navigation">
+            <h3>Move Map</h3>
             <table>
                 <tr>
-                    <td><button onclick="rotateLeft()">↶</button></td>
-                    <td />
-                    <td><button onclick="rotateRight()">↷</button></td>
+                    <td><img class="rotate" title="rotate CCW" onclick="rotateLeft()" src="icons/rotate_ccw.png" /></td>
+                    <td><img title="translate up" onclick="moveUp()" src="icons/arrow_up.png" /></td>
+                    <td><img class="rotate" title="rotate CW" onclick="rotateRight()" src="icons/rotate_cw.png" /></td>
                 </tr>
                 <tr>
-                    <td />
-                    <td><button onclick="moveUp()">↑</button></td>
-                    <td />
-                </tr>
-                <tr>
-                    <td><button onclick="moveLeft()">←</button></td>
-                    <td />
-                    <td><button onclick="moveRight()">→</button></td>
-                </tr>
-                <tr>
-                    <td />
-                    <td><button onclick="moveDown()">↓</button></td>
-                    <td />
+                    <td><img title="translate left" onclick="moveLeft()" src="icons/arrow_left.png" /></td>
+                    <td><img title="translate down" onclick="moveDown()" src="icons/arrow_down.png" /></td>
+                    <td><img title="translate right" onclick="moveRight()" src="icons/arrow_right.png" /></td>
                 </tr>
             </table>
-            <div id="floors"><!-- filled in JS --></div>
         </div>
 
         <div id="help">
             <ul>
-                <li>Left click: Place tiles and walls</li>
-                <li>Right click: Place icons</li>
-                <li>Double click: Clear tile or wall</li>
+                <li>Left click: Place (or replace) tile or wall</li>
+                <li>Right click: Place (or replace) icon</li>
+                <li>Double click: Clear tile or wall and its icons</li>
+                <li><input id="darkmode" type="checkbox" onClick="toggleTheme()">Dark Mode</input></li>
             </ul>
         </div>
     </div>
-</div>
 
-<div id="config">
-    <ul>
-        <li><button onclick="newCellType()">New tile type</button></li>
-        <li><button onclick="clearMap()">Clear map</button></li>
-        <li><a class="button" id="exportLink" onClick="exportMap()">Download Map</a></li>
-    </ul>
-    <div id="links">
-        <button id="loadbutton" onClick="loadMap()" disabled>Load Map File</button>
-        <input type="file" id="uploadfile" onchange="enableLoad()" />
-        <!--todo style? see https://stackoverflow.com/a/25825731/-->
-    </div>
 </div>
 </body>
 </html>

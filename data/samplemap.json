@@ -1,262 +1,427 @@
 {
-    "config": {
-        "map": {
-            "width": 20,
-            "height": 20,
-            "floors": 10
-        },
-        "cellTypes": {
-            "explored": "#eeeecc",
-            "rock": "#444444",
-            "darkness": "#000000"
-        },
-        "edgeTypes": {
-            "wall": "#444444"
-        },
-        "cellMarkTypes": {
-            "ladder_up": "icons/ladder_up.png",
-            "ladder_down": "icons/ladder_down.png",
-            "key": "icons/key.png",
-            "qmark": "icons/qmark.png",
-            "epoint": "icons/epoint.png",
-            "pittrap": "icons/pittrap.png",
-            "elevator": "icons/elevator.png",
-            "teleporter": "icons/teleporter.png"
-        },
-        "edgeMarkTypes": {
-            "door": "icons/door_v.png",
-            "door_v_1r": "icons/door_v_1r.png",
-            "door_v_1l": "icons/door_v_1l.png",
-            "door_sec": "icons/door_sec.png",
-            "door_sec_r": "icons/door_sec_1l.png",
-            "door_sec_l": "icons/door_sec_1r.png"
-        }
+  "config": {
+    "map": {
+      "width": 20,
+      "height": 20,
+      "floors": 10
     },
-    "data": [{
-        "cells": [{
-            "x": 5,
-            "y": 5,
-            "value": "explored",
-            "mark": null
-        }, {
-            "x": 5,
-            "y": 6,
-            "value": "explored",
-            "mark": null
-        }, {
-            "x": 5,
-            "y": 7,
-            "value": "explored",
-            "mark": null
-        }, {
-            "x": 6,
-            "y": 6,
-            "value": "explored",
-            "mark": null
-        }, {
-            "x": 7,
-            "y": 6,
-            "value": "explored",
-            "mark": null
-        }, {
-            "x": 7,
-            "y": 7,
-            "value": "explored",
-            "mark": null
-        }, {
-            "x": 8,
-            "y": 6,
-            "value": "rock",
-            "mark": null
-        }, {
-            "x": 8,
-            "y": 7,
-            "value": "rock",
-            "mark": null
-        }, {
-            "x": 7,
-            "y": 8,
-            "value": "rock",
-            "mark": null
-        }, {
-            "x": 6,
-            "y": 8,
-            "value": "rock",
-            "mark": null
-        }, {
-            "x": 14,
-            "y": 9,
-            "value": "darkness",
-            "mark": null
-        }, {
-            "x": 14,
-            "y": 10,
-            "value": "darkness",
-            "mark": null
-        }, {
-            "x": 13,
-            "y": 10,
-            "value": "darkness",
-            "mark": null
-        }, {
-            "x": 12,
-            "y": 11,
-            "value": "darkness",
-            "mark": null
-        }, {
-            "x": 6,
-            "y": 7,
-            "value": "explored",
-            "mark": "key"
-        }, {
-            "x": 12,
-            "y": 5,
-            "value": "explored",
-            "mark": "elevator"
-        }],
-        "edges": [{
-            "x": 6,
-            "y": 7,
-            "value": "wall",
-            "rotation": 90,
-            "mark": null
-        }, {
-            "x": 6,
-            "y": 7,
-            "value": "wall",
-            "rotation": 0,
-            "mark": null
-        }, {
-            "x": 6,
-            "y": 8,
-            "value": "wall",
-            "rotation": 90,
-            "mark": null
-        }, {
-            "x": 7,
-            "y": 7,
-            "value": "wall",
-            "rotation": 0,
-            "mark": "door_v_1r"
-        }, {
-            "x": 7,
-            "y": 6,
-            "value": "wall",
-            "rotation": 0,
-            "mark": "door"
-        }, {
-            "x": 7,
-            "y": 8,
-            "value": null,
-            "rotation": 90,
-            "mark": "door_sec"
-        }]
-    }, {
-        "cells": [{
-            "x": 12,
-            "y": 5,
-            "value": "explored",
-            "mark": "elevator"
-        }, {
-            "x": 11,
-            "y": 5,
-            "value": "explored",
-            "mark": null
-        }, {
-            "x": 10,
-            "y": 5,
-            "value": "explored",
-            "mark": null
-        }, {
-            "x": 10,
-            "y": 6,
-            "value": "explored",
-            "mark": null
-        }, {
-            "x": 10,
-            "y": 7,
-            "value": "explored",
-            "mark": null
-        }, {
-            "x": 11,
-            "y": 7,
-            "value": "darkness",
-            "mark": null
-        }, {
-            "x": 11,
-            "y": 8,
-            "value": "darkness",
-            "mark": null
-        }, {
-            "x": 8,
-            "y": 8,
-            "value": null,
-            "mark": "qmark"
-        }],
-        "edges": [{
-            "x": 11,
-            "y": 5,
-            "value": "wall",
-            "rotation": 90,
-            "mark": null
-        }, {
-            "x": 10,
-            "y": 5,
-            "value": "wall",
-            "rotation": 90,
-            "mark": null
-        }, {
-            "x": 10,
-            "y": 5,
-            "value": "wall",
-            "rotation": 0,
-            "mark": null
-        }, {
-            "x": 10,
-            "y": 6,
-            "value": "wall",
-            "rotation": 0,
-            "mark": null
-        }]
-    }, {
-        "cells": [{
-            "x": 9,
-            "y": 6,
-            "value": "explored",
-            "mark": null
-        }, {
-            "x": 9,
-            "y": 7,
-            "value": "explored",
-            "mark": null
-        }],
-        "edges": [{
-            "x": 10,
-            "y": 7,
-            "value": null,
-            "rotation": 180,
-            "mark": "door_sec_r"
-        }]
-    }, {
-        "cells": [],
-        "edges": []
-    }, {
-        "cells": [],
-        "edges": []
-    }, {
-        "cells": [],
-        "edges": []
-    }, {
-        "cells": [],
-        "edges": []
-    }, {
-        "cells": [],
-        "edges": []
-    }, {
-        "cells": [],
-        "edges": []
-    }, {
-        "cells": [],
-        "edges": []
-    }]
+    "cellTypes": {
+      "explored": "#eeeecc",
+      "rock": "#444444",
+      "water": "#4444ee",
+      "darkness": "#000000"
+    },
+    "edgeTypes": {
+      "wall": "#444444"
+    },
+    "cellMarkTypes": {
+      "ladder_up": "markers/ladder_up.png",
+      "ladder_down": "markers/ladder_down.png",
+      "key": "markers/key.png",
+      "qmark": "markers/qmark.png",
+      "epoint": "markers/epoint.png",
+      "pittrap": "markers/pittrap.png",
+      "elevator": "markers/elevator.png",
+      "teleporter": "markers/teleporter.png"
+    },
+    "edgeMarkTypes": {
+      "door": "markers/door_v.png",
+      "door_v_1r": "markers/door_v_1r.png",
+      "door_v_1l": "markers/door_v_1l.png",
+      "door_sec": "markers/door_sec.png",
+      "door_sec_r": "markers/door_sec_1l.png",
+      "door_sec_l": "markers/door_sec_1r.png"
+    }
+  },
+  "data": [
+    {
+      "cells": [
+        {
+          "x": 5,
+          "y": 5,
+          "value": "explored",
+          "mark": null
+        },
+        {
+          "x": 5,
+          "y": 6,
+          "value": "explored",
+          "mark": null
+        },
+        {
+          "x": 5,
+          "y": 7,
+          "value": "water",
+          "mark": null
+        },
+        {
+          "x": 6,
+          "y": 6,
+          "value": "explored",
+          "mark": null
+        },
+        {
+          "x": 7,
+          "y": 6,
+          "value": "explored",
+          "mark": null
+        },
+        {
+          "x": 7,
+          "y": 7,
+          "value": "explored",
+          "mark": null
+        },
+        {
+          "x": 8,
+          "y": 6,
+          "value": "rock",
+          "mark": null
+        },
+        {
+          "x": 8,
+          "y": 7,
+          "value": "rock",
+          "mark": null
+        },
+        {
+          "x": 7,
+          "y": 8,
+          "value": "rock",
+          "mark": null
+        },
+        {
+          "x": 6,
+          "y": 8,
+          "value": "rock",
+          "mark": null
+        },
+        {
+          "x": 14,
+          "y": 9,
+          "value": "darkness",
+          "mark": null
+        },
+        {
+          "x": 14,
+          "y": 10,
+          "value": "darkness",
+          "mark": null
+        },
+        {
+          "x": 13,
+          "y": 10,
+          "value": "darkness",
+          "mark": null
+        },
+        {
+          "x": 12,
+          "y": 11,
+          "value": "darkness",
+          "mark": null
+        },
+        {
+          "x": 6,
+          "y": 7,
+          "value": "explored",
+          "mark": "key"
+        },
+        {
+          "x": 12,
+          "y": 5,
+          "value": "explored",
+          "mark": "elevator"
+        },
+        {
+          "x": 19,
+          "y": 7,
+          "value": "explored",
+          "mark": null
+        },
+        {
+          "x": 18,
+          "y": 7,
+          "value": "explored",
+          "mark": null
+        },
+        {
+          "x": 13,
+          "y": 5,
+          "value": "explored",
+          "mark": null
+        },
+        {
+          "x": 14,
+          "y": 5,
+          "value": "explored",
+          "mark": null
+        },
+        {
+          "x": 14,
+          "y": 6,
+          "value": "explored",
+          "mark": null
+        },
+        {
+          "x": 14,
+          "y": 7,
+          "value": "explored",
+          "mark": null
+        },
+        {
+          "x": 15,
+          "y": 7,
+          "value": "explored",
+          "mark": null
+        },
+        {
+          "x": 17,
+          "y": 7,
+          "value": "explored",
+          "mark": null
+        },
+        {
+          "x": 16,
+          "y": 7,
+          "value": "explored",
+          "mark": null
+        }
+      ],
+      "edges": [
+        {
+          "x": 6,
+          "y": 7,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 6,
+          "y": 7,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 6,
+          "y": 8,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 7,
+          "y": 7,
+          "value": "wall",
+          "rotation": 0,
+          "mark": "door_v_1r"
+        },
+        {
+          "x": 7,
+          "y": 6,
+          "value": "wall",
+          "rotation": 0,
+          "mark": "door"
+        },
+        {
+          "x": 7,
+          "y": 8,
+          "value": null,
+          "rotation": 90,
+          "mark": "door_sec"
+        },
+        {
+          "x": 14,
+          "y": 6,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 14,
+          "y": 7,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 14,
+          "y": 8,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 15,
+          "y": 8,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 16,
+          "y": 8,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 17,
+          "y": 8,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 18,
+          "y": 8,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 0,
+          "y": 7,
+          "value": "wall",
+          "rotation": 0,
+          "mark": "door_v_1r"
+        }
+      ]
+    },
+    {
+      "cells": [
+        {
+          "x": 12,
+          "y": 5,
+          "value": "explored",
+          "mark": "elevator"
+        },
+        {
+          "x": 11,
+          "y": 5,
+          "value": "explored",
+          "mark": null
+        },
+        {
+          "x": 10,
+          "y": 5,
+          "value": "explored",
+          "mark": null
+        },
+        {
+          "x": 10,
+          "y": 6,
+          "value": "explored",
+          "mark": null
+        },
+        {
+          "x": 10,
+          "y": 7,
+          "value": "explored",
+          "mark": null
+        },
+        {
+          "x": 11,
+          "y": 7,
+          "value": "darkness",
+          "mark": null
+        },
+        {
+          "x": 11,
+          "y": 8,
+          "value": "darkness",
+          "mark": null
+        },
+        {
+          "x": 8,
+          "y": 8,
+          "value": null,
+          "mark": "qmark"
+        }
+      ],
+      "edges": [
+        {
+          "x": 11,
+          "y": 5,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 10,
+          "y": 5,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 10,
+          "y": 5,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 10,
+          "y": 6,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        }
+      ]
+    },
+    {
+      "cells": [
+        {
+          "x": 9,
+          "y": 6,
+          "value": "explored",
+          "mark": null
+        },
+        {
+          "x": 9,
+          "y": 7,
+          "value": "explored",
+          "mark": null
+        }
+      ],
+      "edges": [
+        {
+          "x": 10,
+          "y": 7,
+          "value": null,
+          "rotation": 180,
+          "mark": "door_sec_r"
+        }
+      ]
+    },
+    {
+      "cells": [],
+      "edges": []
+    },
+    {
+      "cells": [],
+      "edges": []
+    },
+    {
+      "cells": [],
+      "edges": []
+    },
+    {
+      "cells": [],
+      "edges": []
+    },
+    {
+      "cells": [],
+      "edges": []
+    },
+    {
+      "cells": [],
+      "edges": []
+    },
+    {
+      "cells": [],
+      "edges": []
+    }
+  ]
 }

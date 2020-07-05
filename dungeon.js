@@ -14,6 +14,11 @@ const PX_WALL_WIDTH = 4; // drawn width
 var canvas;
 var ctx;
 
+// storage
+const LOCAL_STORAGE = "localStorage";
+const MAP_KEY = "mapdata";
+const THEME_KEY = "theme";
+
 // Map Data
 var data = [];
 
@@ -24,23 +29,24 @@ var cellTypes = {
     "darkness": "#000000"
 };
 var cellMarkTypes = { // 30x30px; not directional
-    "ladder_up": "icons/ladder_up.png",
-    "ladder_down": "icons/ladder_down.png",
-    "key": "icons/key.png",
-    "qmark": "icons/qmark.png",
-    "epoint": "icons/epoint.png",
-    "pittrap": "icons/pittrap.png",
-    "elevator": "icons/elevator.png",
-    "teleporter": "icons/teleporter.png"
+    "ladder_up": "markers/ladder_up.png",
+    "ladder_down": "markers/ladder_down.png",
+    "key": "markers/key.png",
+    "qmark": "markers/qmark.png",
+    "epoint": "markers/epoint.png",
+    "pittrap": "markers/pittrap.png",
+    "elevator": "markers/elevator.png",
+    "teleporter": "markers/teleporter.png",
+    "pressF": "markers/pressF.png"
 };
 var edgeTypes = {"wall": "#444444"};//, "door": "#ffaaff"};
 var edgeMarkTypes = { // 10x30px; are directional
-    "door": "icons/door_v.png",
-    "door_v_1r": "icons/door_v_1r.png",
-    "door_v_1l": "icons/door_v_1l.png",
-    "door_sec": "icons/door_sec.png",
-    "door_sec_r": "icons/door_sec_1l.png",
-    "door_sec_l": "icons/door_sec_1r.png"
+    "door": "markers/door_v.png",
+    "door_v_1r": "markers/door_v_1r.png",
+    "door_v_1l": "markers/door_v_1l.png",
+    "door_sec": "markers/door_sec.png",
+    "door_sec_r": "markers/door_sec_1l.png",
+    "door_sec_l": "markers/door_sec_1r.png"
 }
 
 // Tool Selection
@@ -51,6 +57,7 @@ var currentEdgeType = Object.entries(edgeTypes)[0][0];
 var currentEdgeMark = Object.entries(edgeMarkTypes)[0][0];
 
 window.onload = function() {
+    loadTheme();
     clearData();
     createPalette();
 
@@ -76,9 +83,24 @@ window.onload = function() {
     canvas.onselectstart = function () { return false; }
 }
 
+function toggleTheme() {
+    var isDark = document.getElementById("darkmode").checked;
+    var theme = isDark ? "theme-dark" : "theme-light"
+    setTheme(theme);
+    saveTheme(theme);
+}
+
+function setTheme(theme) {
+    document.documentElement.classList = [theme];
+    // only one for now so
+    document.getElementById("darkmode").checked = theme == "theme-dark";
+}
+
 function newCellType() {
     var cellName = prompt("Enter tile name:\n(Entering an existing tile name will change its color instead.)");
-    var cellColor = prompt("Enter hex color code (e.g. #ffffff)");
+    if (cellName == null) return;
+    var cellColor = prompt("Enter hex color code like \"#ffffff\"");
+    if (cellColor == null) return;
     if (!cellColor.startsWith("#") || cellColor.length != 7) {
         alert("Invalid color, please try again");
         return;
@@ -377,11 +399,13 @@ function enableLoad() {
 }
 
 function loadMap() {
-    const file = document.getElementById("uploadfile").files[0];
+    var input = document.getElementById("uploadfile");
+    const file = input.files[0];
     console.log("got file: " + file);
     const reader = new FileReader();
     reader.onload = parseMap;
     reader.readAsText(file);
+    input.value = null; // Reset form
 }
 
 function parseMap(e) {
@@ -390,7 +414,7 @@ function parseMap(e) {
 
 function parseMapText(text) {
     var values = JSON.parse(text);
-    console.log("loaded map: " + values);
+    console.log("loaded map",values);
 
     // TODO? currently ignores the map config values (w/h/layers)
 
@@ -427,7 +451,7 @@ function createPalette() {
         if (isDarkColor(value)) {
             btn.style = "background-color: " + value + "; color:white";
         } else {
-            btn.style = "background-color: " + value;
+            btn.style = "background-color: " + value + "; color:black";
         }
         cellDiv.appendChild(btn);
 
@@ -460,6 +484,7 @@ function createPalette() {
         var li = document.createElement("li");
         var img = document.createElement("img");
         img.setAttribute("onclick", "changeSelectedCellMark('" + key + "')");
+        img.title = key;
         img.classList.add(key);
         img.src = value;
 
@@ -479,6 +504,7 @@ function createPalette() {
         var li = document.createElement("li");
         var img = document.createElement("img");
         img.setAttribute("onclick", "changeSelectedEdgeMark('" + key + "')");
+        img.title = key;
         img.classList.add(key);
         img.src = value;
 
@@ -846,12 +872,7 @@ function redrawMap() {
 function redrawEdges() {
     for (i = 0; i < data[currentFloor].edges.length; i++) {
         var point = data[currentFloor].edges[i];
-        if (point.rotation % 180 == 0)
-            drawEdge(point);
-        else if (point.rotation % 180 == 90)
-            drawEdge(point);
-        else
-            console.error("Unknown rotation", point);
+        drawEdge(point);
     }
 }
 
@@ -874,9 +895,9 @@ function drawEdge(pt) {
 
             // wrap around
             if (pt.x == 0) {
-                xpx = WIDTH * PX_CELL;
+                var wrapX = WIDTH * PX_CELL;
                 ctx.fillRect(
-                    xpx - PX_WALL_WIDTH/2,
+                    wrapX - PX_WALL_WIDTH/2,
                     ypx,// + PX_WALL_WIDTH/2,
                     PX_WALL_WIDTH,
                     PX_CELL);// - PX_WALL_WIDTH);
@@ -891,10 +912,10 @@ function drawEdge(pt) {
 
             // wrap around
             if (pt.y == 0) {
-                ypx = HEIGHT * PX_CELL;
+                var wrapY = HEIGHT * PX_CELL;
                 ctx.fillRect(
                     xpx,// + PX_WALL_WIDTH/2,
-                    ypx - PX_WALL_WIDTH/2,
+                    wrapY - PX_WALL_WIDTH/2,
                     PX_CELL,// - PX_WALL_WIDTH,
                     PX_WALL_WIDTH);
             }
@@ -903,58 +924,71 @@ function drawEdge(pt) {
 
     // Draw the edge icon
     if (pt.mark != null) {
-        var img = new Image();
-        img.onload = function() {
-            switch (pt.rotation) {
-                case 0:
-                    var imgx = xpx - img.width/2;
-                    var imgy = ypx + (PX_CELL - img.height)/2;
-                    ctx.drawImage(img, imgx, imgy);
-                    break;
-                case 90:
-                    var imgx = xpx + img.width/4;
-                    var imgy = ypx - img.height/2;
+        drawEdgeMark(xpx, ypx, pt);
 
-                    ctx.save();
-
-                    ctx.translate(imgx, imgy);
-                    ctx.rotate(pt.rotation*Math.PI/180);
-                    ctx.drawImage(img, img.width, -img.height);
-                    
-                    ctx.restore();
-                    break;
-                case 180:
-                    var imgx = xpx - (img.width)/2;
-                    var imgy = ypx + (PX_CELL - img.height)/2;
-
-                    ctx.save();
-
-                    ctx.translate(imgx, imgy);
-                    ctx.rotate(pt.rotation*Math.PI/180);
-                    ctx.drawImage(img, -img.width, -img.height);
-
-                    ctx.restore();
-                    break;
-                case 270:
-                    var imgx = xpx - img.width/4;
-                    var imgy = ypx + img.height/2;
-
-                    ctx.save();
-
-                    ctx.translate(imgx, imgy);
-                    ctx.rotate(pt.rotation*Math.PI/180);
-                    ctx.drawImage(img, img.width, img.height/4);
-                    
-                    ctx.restore();
-                    break;
-                default:
-                    console.error("Unknown rotation",pt);
-            }
-
-            img = null;
+        // if wrapped - do it again on the other side
+        if (pt.x == 0) {
+            var xWrap = WIDTH * PX_CELL;
+            drawEdgeMark(xWrap, ypx, pt);
+        } else if (pt.y == 0) {
+            var yWrap = HEIGHT * PX_CELL;
+            drawEdgeMark(xpx, yWrap, pt);
         }
-        img.src = edgeMarkTypes[pt.mark];
     }
+}
+
+function drawEdgeMark(xpx, ypx, pt) {
+    var img = new Image();
+    img.onload = function() {
+        switch (pt.rotation) {
+            case 0:
+                var imgx = xpx - img.width/2;
+                var imgy = ypx + (PX_CELL - img.height)/2;
+                ctx.drawImage(img, imgx, imgy);
+                break;
+            case 90:
+                var imgx = xpx + img.width/4;
+                var imgy = ypx - img.height/2;
+
+                ctx.save();
+
+                ctx.translate(imgx, imgy);
+                ctx.rotate(pt.rotation*Math.PI/180);
+                ctx.drawImage(img, img.width, -img.height);
+                
+                ctx.restore();
+                break;
+            case 180:
+                var imgx = xpx - (img.width)/2;
+                var imgy = ypx + (PX_CELL - img.height)/2;
+
+                ctx.save();
+
+                ctx.translate(imgx, imgy);
+                ctx.rotate(pt.rotation*Math.PI/180);
+                ctx.drawImage(img, -img.width, -img.height);
+
+                ctx.restore();
+                break;
+            case 270:
+                var imgx = xpx - img.width/4;
+                var imgy = ypx + img.height/2;
+
+                ctx.save();
+
+                ctx.translate(imgx, imgy);
+                ctx.rotate(pt.rotation*Math.PI/180);
+                ctx.drawImage(img, img.width, img.height/4);
+                
+                ctx.restore();
+                break;
+            default:
+                console.error("Unknown rotation",pt);
+        }
+
+        img = null;
+    }
+    img.src = edgeMarkTypes[pt.mark];
 }
 
 function drawCell(pt) {
@@ -983,13 +1017,13 @@ function drawCell(pt) {
     }
 }
 
-// local storage save???
+// Local storage
 
 // from MDN: https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
-function storageAvailable(type) {
+function localStorageAvailable() {
     var storage;
     try {
-        storage = window[type];
+        storage = window[LOCAL_STORAGE];
         var x = '__storage_test__';
         storage.setItem(x, x);
         storage.removeItem(x);
@@ -1011,15 +1045,15 @@ function storageAvailable(type) {
 }
 
 function saveMapLocalStorage() {
-    if (!storageAvailable("localStorage")) {
+    if (!localStorageAvailable()) {
         console.error("local storage not available :(");
         return;
     }
 
-    localStorage = window["localStorage"];
+    localStorage = window[LOCAL_STORAGE];
     var text = getMapAsText();
     try {
-        localStorage.setItem('mapdata', text);
+        localStorage.setItem(MAP_KEY, text);
         console.log("Saved to local storage");
     } catch (e) {
         console.error(e);
@@ -1037,18 +1071,47 @@ function fadeOutCheck() {
 }
 
 function loadMapLocalStorage() {
-    if (!storageAvailable("localStorage")) {
+    if (!localStorageAvailable()) {
         console.error("local storage not available :(");
         return;
     }
 
-    localStorage = window["localStorage"];
+    localStorage = window[LOCAL_STORAGE];
     try {
-        var text = localStorage.getItem('mapdata');
+        var text = localStorage.getItem(MAP_KEY);
         parseMapText(text);
         console.log("Loaded from local storage");
     } catch (e) {
         console.error(e);
-        alert("Could not save map! Please use the export function instead.");
+        alert("Could not load map! Please use the load map file function instead.");
+    }
+}
+
+function saveTheme(theme) {
+    if (!localStorageAvailable()) {
+        console.error("local storage not available :(");
+        return;
+    }
+
+    localStorage = window[LOCAL_STORAGE];
+    try {
+        localStorage.setItem(THEME_KEY, theme);
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+function loadTheme(theme) {
+    if (!localStorageAvailable()) {
+        console.error("local storage not available :(");
+        return;
+    }
+
+    localStorage = window[LOCAL_STORAGE];
+    try {
+        var theme = localStorage.getItem(THEME_KEY);
+        setTheme(theme);
+    } catch (e) {
+        console.error(e);
     }
 }
