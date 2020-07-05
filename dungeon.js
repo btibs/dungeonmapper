@@ -345,7 +345,7 @@ function handleCell(x, y, cellType, mark) {
     redrawEdges();
 }
 
-function exportMap() {
+function getMapAsText() {
     var configInfo = {
         "map": {
             "width": WIDTH,
@@ -358,8 +358,11 @@ function exportMap() {
         edgeMarkTypes
     };
     var allData = {"config":configInfo, "data": data};
-    var text = JSON.stringify(allData);
+    return JSON.stringify(allData);
+}
 
+function exportMap() {
+    var text = getMapAsText();
     var blob = new Blob([text], {type: 'text/plain'});
     var textFile = window.URL.createObjectURL(blob);
     var link = document.getElementById("exportLink");
@@ -382,7 +385,11 @@ function loadMap() {
 }
 
 function parseMap(e) {
-    var values = JSON.parse(e.target.result);
+    parseMapText(e.target.result);
+}
+
+function parseMapText(text) {
+    var values = JSON.parse(text);
     console.log("loaded map: " + values);
 
     // TODO? currently ignores the map config values (w/h/layers)
@@ -973,5 +980,75 @@ function drawCell(pt) {
             img = null;
         };
         img.src = cellMarkTypes[pt.mark];
+    }
+}
+
+// local storage save???
+
+// from MDN: https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
+function storageAvailable(type) {
+    var storage;
+    try {
+        storage = window[type];
+        var x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    } catch(e) {
+        return e instanceof DOMException && (
+            // everything except Firefox
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            (storage && storage.length !== 0);
+    }
+}
+
+function saveMapLocalStorage() {
+    if (!storageAvailable("localStorage")) {
+        console.error("local storage not available :(");
+        return;
+    }
+
+    localStorage = window["localStorage"];
+    var text = getMapAsText();
+    try {
+        localStorage.setItem('mapdata', text);
+        console.log("Saved to local storage");
+    } catch (e) {
+        console.error(e);
+        alert("Could not save map! Please use the export function instead.");
+    }
+
+    var checkmark = document.getElementById("saveconfirm");
+    checkmark.style.opacity = '1';
+    setTimeout("fadeOutCheck()", 1000);
+}
+
+function fadeOutCheck() {
+    var checkmark = document.getElementById("saveconfirm");
+    checkmark.style.opacity = '0';
+}
+
+function loadMapLocalStorage() {
+    if (!storageAvailable("localStorage")) {
+        console.error("local storage not available :(");
+        return;
+    }
+
+    localStorage = window["localStorage"];
+    try {
+        var text = localStorage.getItem('mapdata');
+        parseMapText(text);
+        console.log("Loaded from local storage");
+    } catch (e) {
+        console.error(e);
+        alert("Could not save map! Please use the export function instead.");
     }
 }

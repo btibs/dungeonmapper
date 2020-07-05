@@ -89,6 +89,15 @@
         #palette img {
             margin-right: 5px;
         }
+        #savebtn {
+            margin-right:2px;
+        }
+        #saveconfirm {
+            margin-right:10px;
+            color: #00cc00;
+            opacity: 0;
+            transition:opacity 250ms;
+        }
 
         #cells a {
             padding:3px;
@@ -132,12 +141,13 @@
 -->
 
 <div id="map">
-    <h2>Map</h2>
     <canvas id="mapcanvas"></canvas>
-
     <div id="controls">
         <div id="palette">
             <h2>Controls</h2>
+            <button onclick="saveMapLocalStorage()" style="margin-right:0px" >Save</button>
+            <span id="saveconfirm">✔</span>
+            <button onclick="loadMapLocalStorage()">Load Last Save</button>
             <!-- color codes: placed w/left click -->
             <h3>Tile Types</h3>
             <div id="cells">
@@ -209,14 +219,13 @@
 </div>
 
 <div id="config">
-    <h3>Config:</h3>
     <ul>
         <li><button onclick="newCellType()">New tile type</button></li>
         <li><button onclick="clearMap()">Clear map</button></li>
-        <li><a class="button" id="exportLink" onClick="exportMap()">Download Map</a> <span style="color:red;font-weight:bold">&lt;- Don't Forget To Save!!!</span></li>
+        <li><a class="button" id="exportLink" onClick="exportMap()">Download Map</a></li>
     </ul>
     <div id="links">
-        <button id="loadbutton" onClick="loadMap()" disabled>Load Saved Map</button>
+        <button id="loadbutton" onClick="loadMap()" disabled>Load Map File</button>
         <input type="file" id="uploadfile" onchange="enableLoad()" />
         <!--todo style? see https://stackoverflow.com/a/25825731/-->
     </div>
