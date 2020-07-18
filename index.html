@@ -19,20 +19,6 @@
     <div id="floors"></div>
 </div>
 
-<!-- TODO for now just hard code -->
-<!--
-<div id="setup">
-    <h2>Generate New Map</h2>
-    Floors: <input id="floors" type="number" min="1" max="10" step="1" value="1" size="2" />
-    <br/>
-    Grid Size: <input id="gridx" type="number" min="1" max="20" step="1" value="20" />
-    x
-    <input id="gridy" type="number" min="1" max="20" step="1" value="20" />
-    <br />
-    <button id="create" onclick="initGrid()">Create</button>
-</div>
--->
-
 <div id="map">
     <div>
         <canvas id="mapcanvas"></canvas>
@@ -43,7 +29,6 @@
                 <li><button id="clearbtn" onclick="clearMap()" title="Wipes the current map. This cannot be undone! It will not affect your last save.">Clear Map</button></li>
             </ul>
             <div id="links">
-                <!--todo style? see https://stackoverflow.com/a/25825731/-->
                 <input type="file" id="uploadfile" onchange="enableLoad()" />
                 <button id="loadbutton" onClick="loadMap()" disabled>Load Map File</button>
             </div>
@@ -51,7 +36,6 @@
     </div>
     <div id="controls">
         <div id="palette">
-            <!-- <h2>Controls</h2> -->
             <button id="savebtn" onclick="saveMapLocalStorage()" title="Save map data in browser storage. This will be lost if you clear browser data! If you plan to do that, export the file instead when you are done.">Save</button>
             <span id="saveconfirm">✔</span>
             <button onclick="loadMapLocalStorage()" title="Load map data from browser storage">Load Last Save</button>

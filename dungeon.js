@@ -1,4 +1,4 @@
-// Map size (TODO: configurable??)
+// Map size
 const WIDTH = 20;
 const HEIGHT = 20;
 const FLOORS = 10;
@@ -1107,7 +1107,7 @@ function saveTheme(theme) {
     }
 }
 
-function loadTheme(theme) {
+function loadTheme() {
     if (!localStorageAvailable()) {
         console.error("local storage not available :(");
         return;
@@ -1115,8 +1115,8 @@ function loadTheme(theme) {
 
     localStorage = window[LOCAL_STORAGE];
     try {
-        var theme = localStorage.getItem(THEME_KEY);
-        setTheme(theme);
+        theme = localStorage.getItem(THEME_KEY);
+        if (theme != null) setTheme(theme);
     } catch (e) {
         console.error(e);
     }
