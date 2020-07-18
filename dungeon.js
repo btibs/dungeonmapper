@@ -26,18 +26,24 @@ var data = [];
 var cellTypes = {
     "explored": "#eeeecc",
     "rock": "#444444",
-    "darkness": "#000000"
+    "darkness": "#000000",
+    "dead-magic": "#cc2266"
 };
 var cellMarkTypes = { // 30x30px; not directional
     "ladder_up": "markers/ladder_up.png",
     "ladder_down": "markers/ladder_down.png",
-    "key": "markers/key.png",
+    "key": "markers/key_wsol.png",
     "qmark": "markers/qmark.png",
     "epoint": "markers/epoint.png",
     "pittrap": "markers/pittrap.png",
     "elevator": "markers/elevator.png",
     "teleporter": "markers/teleporter.png",
-    "pressF": "markers/pressF.png"
+    "pressF": "markers/pressF.png",
+    "rotate_random": "markers/tile_rotate_random.png",
+    "rotate_ccw": "markers/tile_rotate_ccw.png",
+    "rotate_cw": "markers/tile_rotate_cw.png",
+    "statue": "markers/statue_wsol.png",
+    "ribbon": "markers/ribbon_blue.png"
 };
 var edgeTypes = {"wall": "#444444"};//, "door": "#ffaaff"};
 var edgeMarkTypes = { // 10x30px; are directional
