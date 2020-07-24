@@ -63,6 +63,11 @@ var currentEdgeType = Object.entries(edgeTypes)[0][0];
 var currentEdgeMark = Object.entries(edgeMarkTypes)[0][0];
 
 window.onload = function() {
+    if (localStorageAvailable()) {
+        // show save/load buttons
+        document.getElementById("localbtns").style = "";
+    }
+
     loadTheme();
     clearData();
     createPalette();
@@ -186,7 +191,7 @@ function handleClick(event) {
 }
 
 function handleRightClick(event) {
-    // place icon
+    // place marker
     event.preventDefault();
     
     var clickX = event.pageX - canvas.offsetLeft;
@@ -386,7 +391,7 @@ function getMapAsText() {
         edgeMarkTypes
     };
     var allData = {"config":configInfo, "data": data};
-    return JSON.stringify(allData);
+    return JSON.stringify(allData, null, 2);
 }
 
 function exportMap() {
@@ -928,7 +933,7 @@ function drawEdge(pt) {
         }
     }
 
-    // Draw the edge icon
+    // Draw the edge mark
     if (pt.mark != null) {
         drawEdgeMark(xpx, ypx, pt);
 
@@ -1061,14 +1066,14 @@ function saveMapLocalStorage() {
     try {
         localStorage.setItem(MAP_KEY, text);
         console.log("Saved to local storage");
+
+        var checkmark = document.getElementById("saveconfirm");
+        checkmark.style.opacity = '1';
+        setTimeout("fadeOutCheck()", 1000);
     } catch (e) {
         console.error(e);
         alert("Could not save map! Please use the export function instead.");
     }
-
-    var checkmark = document.getElementById("saveconfirm");
-    checkmark.style.opacity = '1';
-    setTimeout("fadeOutCheck()", 1000);
 }
 
 function fadeOutCheck() {

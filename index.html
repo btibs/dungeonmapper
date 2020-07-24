@@ -26,7 +26,7 @@
             <ul>
                 <li><button onclick="newCellType()">New Tile Type</button></li>
                 <li><a class="button" id="exportLink" onClick="exportMap()">Export Map File</a></li>
-                <li><button id="clearbtn" onclick="clearMap()" title="Wipes the current map. This cannot be undone! It will not affect your last save.">Clear Map</button></li>
+                <li><button id="clearbtn" onclick="clearMap()" title="Wipes the current map. This cannot be undone!">Clear Map</button></li>
             </ul>
             <div id="links">
                 <input type="file" id="uploadfile" onchange="enableLoad()" />
@@ -36,9 +36,12 @@
     </div>
     <div id="controls">
         <div id="palette">
-            <button id="savebtn" onclick="saveMapLocalStorage()" title="Save map data in browser storage. This will be lost if you clear browser data! If you plan to do that, export the file instead when you are done.">Save</button>
-            <span id="saveconfirm">✔</span>
-            <button onclick="loadMapLocalStorage()" title="Load map data from browser storage">Load Last Save</button>
+            <div id="localbtns" style="display:none">
+                <!-- enabled in code after we check that local storage works -->
+                <button id="savebtn" onclick="saveMapLocalStorage()" title="Save map data in browser storage. This will be lost if you clear browser data! If you plan to do that, export the file instead when you are done.">Save</button>
+                <span id="saveconfirm">✔</span>
+                <button id="loadbtn" onclick="loadMapLocalStorage()" title="Load map data from browser storage">Load Last Save</button>
+            </div>
             
             <h3>Tile Types</h3>
             <div id="cells"></div>
@@ -77,7 +80,7 @@
     </div>
 </div>
 <div id="footer">
-    <a href="https://github.com/btibs/dungeonmapper">View source on GitHub!</a>
+    <a href="https://github.com/btibs/dungeonmapper">View project on GitHub!</a>
 </div>
 </body>
 </html>
