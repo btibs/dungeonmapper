@@ -10,6 +10,12 @@ const PX_GRID_LINE = 1;
 const PX_EDGE_TOLERANCE = 10; // clickable width
 const PX_WALL_WIDTH = 4; // drawn width
 
+// Dimensions for map icons
+const CELL_IMG_WIDTH = 30;
+const CELL_IMG_HEIGHT = 30;
+const EDGE_IMG_WIDTH = 10;
+const EDGE_IMG_HEIGHT = 30;
+
 // global 4 ur convenience
 var canvas;
 var ctx;
@@ -24,7 +30,7 @@ const ALL_CELL_MARKS = {
     "ladder_up": "markers/ladder_up.png",
     "ladder_down": "markers/ladder_down.png",
     "key": "markers/key.png",
-    "key_wsol": "markers/key_wsol.png",
+    "key_1": "markers/key_1.png",
     "qmark": "markers/qmark.png",
     "epoint": "markers/epoint.png",
     "pittrap": "markers/pittrap.png",
@@ -38,7 +44,11 @@ const ALL_CELL_MARKS = {
     "badge": "markers/badge.png",
     "statue_wsol": "markers/statue_wsol.png",
     "werdna": "markers/werdna.png",
-    "to10": "markers/to10.png"
+    "to10": "markers/to10.png",
+    "amulet": "markers/amulet.png",
+    "chute": "markers/chute.png",
+    "exit": "markers/exit.png",
+    "teleport_destination": "markers/teleport_destination.png"
 };
 
 // All possible edge icons: 10x30px; are directional
@@ -48,7 +58,9 @@ const ALL_EDGE_MARKS = {
     "door_v_1l": "markers/door_v_1l.png",
     "door_sec": "markers/door_sec.png",
     "door_sec_l": "markers/door_sec_1l.png",
-    "door_sec_r": "markers/door_sec_1r.png"
+    "door_sec_r": "markers/door_sec_1r.png",
+    "oneway_wall_1": "markers/oneway_wall_1.png",
+    "oneway_wall_2": "markers/oneway_wall_2.png"
 }
 
 // Map Data
@@ -448,11 +460,13 @@ function parseMapText(text) {
     var values = JSON.parse(text);
     console.log("loaded map",values);
 
-    // TODO? currently ignores the map config values (w/h/layers)
+    // TODO: configurable width/height
+    FLOORS = values.config.map.floors;
 
     cellTypes = values.config.cellTypes;
     edgeTypes = values.config.edgeTypes;
     cellMarkTypes = values.config.cellMarkTypes;
+    edgeMarkTypes = values.config.edgeMarkTypes;
     data = values.data;
     currentFloor = 0;
 
@@ -986,43 +1000,43 @@ function drawEdgeMark(xpx, ypx, pt) {
     img.onload = function() {
         switch (pt.rotation) {
             case 0:
-                var imgx = xpx - img.width/2;
-                var imgy = ypx + (PX_CELL - img.height)/2;
-                ctx.drawImage(img, imgx, imgy);
+                var imgx = xpx - EDGE_IMG_WIDTH/2;
+                var imgy = ypx + (PX_CELL - EDGE_IMG_HEIGHT)/2;
+                ctx.drawImage(img, imgx, imgy, EDGE_IMG_WIDTH, EDGE_IMG_HEIGHT);
                 break;
             case 90:
-                var imgx = xpx + img.width/4;
-                var imgy = ypx - img.height/2;
+                var imgx = xpx + EDGE_IMG_WIDTH/4;
+                var imgy = ypx - EDGE_IMG_HEIGHT/2;
 
                 ctx.save();
 
                 ctx.translate(imgx, imgy);
                 ctx.rotate(pt.rotation*Math.PI/180);
-                ctx.drawImage(img, img.width, -img.height);
+                ctx.drawImage(img, EDGE_IMG_WIDTH, -EDGE_IMG_HEIGHT, EDGE_IMG_WIDTH, EDGE_IMG_HEIGHT);
                 
                 ctx.restore();
                 break;
             case 180:
-                var imgx = xpx - (img.width)/2;
-                var imgy = ypx + (PX_CELL - img.height)/2;
+                var imgx = xpx - (EDGE_IMG_WIDTH)/2;
+                var imgy = ypx + (PX_CELL - EDGE_IMG_HEIGHT)/2;
 
                 ctx.save();
 
                 ctx.translate(imgx, imgy);
                 ctx.rotate(pt.rotation*Math.PI/180);
-                ctx.drawImage(img, -img.width, -img.height);
+                ctx.drawImage(img, -EDGE_IMG_WIDTH, -EDGE_IMG_HEIGHT, EDGE_IMG_WIDTH, EDGE_IMG_HEIGHT);
 
                 ctx.restore();
                 break;
             case 270:
-                var imgx = xpx - img.width/4;
-                var imgy = ypx + img.height/2;
+                var imgx = xpx - EDGE_IMG_WIDTH/4;
+                var imgy = ypx + EDGE_IMG_HEIGHT/2;
 
                 ctx.save();
 
                 ctx.translate(imgx, imgy);
                 ctx.rotate(pt.rotation*Math.PI/180);
-                ctx.drawImage(img, img.width, img.height/4);
+                ctx.drawImage(img, EDGE_IMG_WIDTH, EDGE_IMG_HEIGHT/4, EDGE_IMG_WIDTH, EDGE_IMG_HEIGHT);
                 
                 ctx.restore();
                 break;
@@ -1052,9 +1066,9 @@ function drawCell(pt) {
     if (pt.mark != null && cellMarkTypes[pt.mark] != null) {
         var img = new Image();
         img.onload = function() {
-            var imgx = xpx + (PX_CELL-img.width)/2;
-            var imgy = ypx + (PX_CELL-img.height)/2;
-            ctx.drawImage(img, imgx, imgy);
+            var imgx = xpx + (PX_CELL-CELL_IMG_WIDTH)/2;
+            var imgy = ypx + (PX_CELL-CELL_IMG_HEIGHT)/2;
+            ctx.drawImage(img, imgx, imgy, CELL_IMG_WIDTH, CELL_IMG_HEIGHT);
             img = null;
         };
         img.src = cellMarkTypes[pt.mark];
@@ -1215,7 +1229,13 @@ function showConfig() {
     // tile icons
     var cellMarkDiv = document.getElementById("cellmarkconfig");
     cellMarkDiv.innerHTML = "";
-    for (const [name, src] of Object.entries(ALL_CELL_MARKS)) {
+    var actuallyAllCellMarks = JSON.parse(JSON.stringify(ALL_CELL_MARKS));
+    for (const [name, src] of Object.entries(cellMarkTypes)) {
+        if (ALL_CELL_MARKS[name] == null) { // custom
+            actuallyAllCellMarks[name] = src;
+        }
+    }
+    for (const [name, src] of Object.entries(actuallyAllCellMarks)) {
         var img = document.createElement("img");
         img.title = name;
         img.src = src;
@@ -1230,7 +1250,13 @@ function showConfig() {
     // edge icons
     var edgeMarkDiv = document.getElementById("edgemarkconfig");
     edgeMarkDiv.innerHTML = "";
-    for (const [name, src] of Object.entries(ALL_EDGE_MARKS)) {
+    var actuallyAllEdgeMarks = JSON.parse(JSON.stringify(ALL_EDGE_MARKS));
+    for (const [name, src] of Object.entries(edgeMarkTypes)) {
+        if (ALL_EDGE_MARKS[name] == null) { // custom
+            actuallyAllEdgeMarks[name] = src;
+        }
+    }
+    for (const [name, src] of Object.entries(actuallyAllEdgeMarks)) {
         var img = document.createElement("img");
         img.title = name;
         img.src = src;
@@ -1369,6 +1395,22 @@ function toggleCellMarkAvailable(name) {
     }
 }
 
+function newCellMarkType() {
+    var cellMarkDiv = document.getElementById("cellmarkconfig");
+    var div = document.createElement("div");
+    var nameLabel = document.createElement("label");
+    nameLabel.innerHTML = "Name:";
+    var nameInput = document.createElement("input");
+    var urlLabel = document.createElement("label");
+    urlLabel.innerHTML = "Icon URL:";
+    var urlInput = document.createElement("input");
+    div.appendChild(nameLabel);
+    div.appendChild(nameInput);
+    div.appendChild(urlLabel);
+    div.appendChild(urlInput);
+    cellMarkDiv.appendChild(div);
+}
+
 function updateCellMarks() {
     var cellMarkDiv = document.getElementById("cellmarkconfig");
     for (e of cellMarkDiv.getElementsByTagName("img")) {
@@ -1378,6 +1420,18 @@ function updateCellMarks() {
             delete cellMarkTypes[e.title];
         }
     }
+
+    // check for custom ones
+    for (e of cellMarkDiv.getElementsByTagName("div")) {
+        var name = e.getElementsByTagName("input")[0].value;
+        var url = e.getElementsByTagName("input")[1].value;
+        if (name == null || url == null || name == "" || url == "") {
+            console.error("Not adding tile icon",name, url);
+        } else {
+            cellMarkTypes[name] = url;
+        }
+    }
+
     return true;
 }
 
@@ -1391,6 +1445,22 @@ function toggleEdgeMarkAvailable(name) {
     }
 }
 
+function newEdgeMarkType() {
+    var edgeMarkDiv = document.getElementById("edgemarkconfig");
+    var div = document.createElement("div");
+    var nameLabel = document.createElement("label");
+    nameLabel.innerHTML = "Name:";
+    var nameInput = document.createElement("input");
+    var urlLabel = document.createElement("label");
+    urlLabel.innerHTML = "Icon URL:";
+    var urlInput = document.createElement("input");
+    div.appendChild(nameLabel);
+    div.appendChild(nameInput);
+    div.appendChild(urlLabel);
+    div.appendChild(urlInput);
+    edgeMarkDiv.appendChild(div);
+}
+
 function updateEdgeMarks() {
     var edgeMarkDiv = document.getElementById("edgemarkconfig");
     for (e of edgeMarkDiv.getElementsByTagName("img")) {
@@ -1398,6 +1468,17 @@ function updateEdgeMarks() {
             edgeMarkTypes[e.title] = e.src;
         } else {
             delete edgeMarkTypes[e.title];
+        }
+    }
+
+    // check for custom ones
+    for (e of edgeMarkDiv.getElementsByTagName("div")) {
+        var name = e.getElementsByTagName("input")[0].value;
+        var url = e.getElementsByTagName("input")[1].value;
+        if (name == null || url == null || name == "" || url == "") {
+            console.error("Not adding edge icon",name, url);
+        } else {
+            edgeMarkTypes[name] = url;
         }
     }
     return true;
