@@ -75,6 +75,10 @@ input {
     margin:5px 0px;
     background-color: var(--color-btn-bg);
 }
+label {
+    padding-right:4px;
+    padding-left:4px;
+}
 
 .rotate {
     border-radius: 50%;
