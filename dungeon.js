@@ -31,6 +31,7 @@ const ALL_CELL_MARKS = {
     "ladder_down": "markers/ladder_down.png",
     "key": "markers/key.png",
     "key_1": "markers/key_1.png",
+    "key_2": "markers/key_2.png",
     "qmark": "markers/qmark.png",
     "epoint": "markers/epoint.png",
     "pittrap": "markers/pittrap.png",
@@ -43,12 +44,12 @@ const ALL_CELL_MARKS = {
     "ribbon": "markers/ribbon_blue.png",
     "badge": "markers/badge.png",
     "statue_wsol": "markers/statue_wsol.png",
-    "werdna": "markers/werdna.png",
-    "to10": "markers/to10.png",
     "amulet": "markers/amulet.png",
     "chute": "markers/chute.png",
     "exit": "markers/exit.png",
-    "teleport_destination": "markers/teleport_destination.png"
+    "teleport_destination": "markers/teleport_destination.png",
+    "to10": "markers/to10.png",
+    "werdna": "markers/werdna.png"
 };
 
 // All possible edge icons: 10x30px; are directional
