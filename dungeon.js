@@ -47,9 +47,7 @@ const ALL_CELL_MARKS = {
     "amulet": "markers/amulet.png",
     "chute": "markers/chute.png",
     "exit": "markers/exit.png",
-    "teleport_destination": "markers/teleport_destination.png",
-    "to10": "markers/to10.png",
-    "werdna": "markers/werdna.png"
+    "teleport_destination": "markers/teleport_destination.png"
 };
 
 // All possible edge icons: 10x30px; are directional
