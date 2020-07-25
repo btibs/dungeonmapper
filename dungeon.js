@@ -19,6 +19,38 @@ const LOCAL_STORAGE = "localStorage";
 const MAP_KEY = "mapdata";
 const THEME_KEY = "theme";
 
+// All possible cell icons: 30x30px; not directional
+const ALL_CELL_MARKS = {
+    "ladder_up": "markers/ladder_up.png",
+    "ladder_down": "markers/ladder_down.png",
+    "key": "markers/key.png",
+    "key_wsol": "markers/key_wsol.png",
+    "qmark": "markers/qmark.png",
+    "epoint": "markers/epoint.png",
+    "pittrap": "markers/pittrap.png",
+    "elevator": "markers/elevator.png",
+    "teleporter": "markers/teleporter.png",
+    "pressF": "markers/pressF.png",
+    "rotate_random": "markers/tile_rotate_random.png",
+    "rotate_ccw": "markers/tile_rotate_ccw.png",
+    "rotate_cw": "markers/tile_rotate_cw.png",
+    "ribbon": "markers/ribbon_blue.png",
+    "badge": "markers/badge.png",
+    "statue_wsol": "markers/statue_wsol.png",
+    "werdna": "markers/werdna.png",
+    "to10": "markers/to10.png"
+};
+
+// All possible edge icons: 10x30px; are directional
+const ALL_EDGE_MARKS = {
+    "door": "markers/door_v.png",
+    "door_v_1r": "markers/door_v_1r.png",
+    "door_v_1l": "markers/door_v_1l.png",
+    "door_sec": "markers/door_sec.png",
+    "door_sec_l": "markers/door_sec_1l.png",
+    "door_sec_r": "markers/door_sec_1r.png"
+}
+
 // Map Data
 var data = [];
 
@@ -30,7 +62,7 @@ var cellTypes = {
     "water": "#4488cc",
     "no magic zone": "#cc4466"
 };
-var cellMarkTypes = { // 30x30px; not directional
+var cellMarkTypes = {
     "ladder_up": "markers/ladder_up.png",
     "ladder_down": "markers/ladder_down.png",
     "key": "markers/key.png",
@@ -39,20 +71,16 @@ var cellMarkTypes = { // 30x30px; not directional
     "pittrap": "markers/pittrap.png",
     "elevator": "markers/elevator.png",
     "teleporter": "markers/teleporter.png",
-    "pressF": "markers/pressF.png",
-    "rotate_random": "markers/tile_rotate_random.png",
-    "rotate_ccw": "markers/tile_rotate_ccw.png",
-    "rotate_cw": "markers/tile_rotate_cw.png",
-    "ribbon": "markers/ribbon_blue.png"
+    "pressF": "markers/pressF.png"
 };
 var edgeTypes = {"wall": "#444444"};//, "door": "#ffaaff"};
-var edgeMarkTypes = { // 10x30px; are directional
+var edgeMarkTypes = {
     "door": "markers/door_v.png",
     "door_v_1r": "markers/door_v_1r.png",
     "door_v_1l": "markers/door_v_1l.png",
     "door_sec": "markers/door_sec.png",
-    "door_sec_r": "markers/door_sec_1l.png",
-    "door_sec_l": "markers/door_sec_1r.png"
+    "door_sec_l": "markers/door_sec_1l.png",
+    "door_sec_r": "markers/door_sec_1r.png"
 }
 
 // Tool Selection
@@ -1159,19 +1187,19 @@ function showConfig() {
         cellTypeTable.removeChild(cellTypeTable.children[1]);
     }
     // populate current list
-    for (t in cellTypes) {
+    for (const [name, color] of Object.entries(cellTypes)) {
         var tr = document.createElement("tr");
 
         var td1 = document.createElement("td");
         var i1 = document.createElement("input");
-        i1.value = t;
+        i1.value = name;
         i1.disabled = "disabled";
         td1.appendChild(i1);
         tr.appendChild(td1);
 
         var td2 = document.createElement("td");
         var i2 = document.createElement("input");
-        i2.value = cellTypes[t];
+        i2.value = color;
         td2.appendChild(i2);
         tr.appendChild(td2);
 
@@ -1185,8 +1213,34 @@ function showConfig() {
     }
 
     // tile icons
+    var cellMarkDiv = document.getElementById("cellmarkconfig");
+    cellMarkDiv.innerHTML = "";
+    for (const [name, src] of Object.entries(ALL_CELL_MARKS)) {
+        var img = document.createElement("img");
+        img.title = name;
+        img.src = src;
+        img.classList = [name]
+        if (cellMarkTypes[name] != null) {
+            img.classList.add("current");
+        }
+        img.setAttribute("onclick", "toggleCellMarkAvailable('" + name + "')");
+        cellMarkDiv.appendChild(img);
+    }
 
     // edge icons
+    var edgeMarkDiv = document.getElementById("edgemarkconfig");
+    edgeMarkDiv.innerHTML = "";
+    for (const [name, src] of Object.entries(ALL_EDGE_MARKS)) {
+        var img = document.createElement("img");
+        img.title = name;
+        img.src = src;
+        img.classList = [name]
+        if (edgeMarkTypes[name] != null) {
+            img.classList.add("current");
+        }
+        img.setAttribute("onclick", "toggleEdgeMarkAvailable('" + name + "')");
+        edgeMarkDiv.appendChild(img);
+    }
 }
 
 function hideConfig() {
@@ -1195,11 +1249,10 @@ function hideConfig() {
 }
 
 function saveConfig() {
-    // floors
     var valid = updateNumFloors();
-
-    // tile types
     valid &= updateCellTypes();
+    valid &= updateCellMarks();
+    valid &= updateEdgeMarks();
 
     if (!valid) {
         return; // don't update or close so user can correct
@@ -1280,7 +1333,6 @@ function updateCellTypes() {
         var name = tr.children[0].children[0].value;
         var color = tr.children[1].children[0].value;
         var toDelete = tr.children[2].children[0].checked;
-        console.log(name,color,toDelete);
 
         if (toDelete) {
             delete updatedCellTypes[name];
@@ -1305,4 +1357,48 @@ function updateCellTypes() {
         console.error("Invalid entries, cell changes were not saved");
     }
     return valid;
+}
+
+function toggleCellMarkAvailable(name) {
+    var cellMarkDiv = document.getElementById("cellmarkconfig");
+    var item = cellMarkDiv.getElementsByClassName(name)[0];
+    if (item.classList.contains("current")) {
+        item.classList.remove("current");
+    } else {
+        item.classList.add("current");
+    }
+}
+
+function updateCellMarks() {
+    var cellMarkDiv = document.getElementById("cellmarkconfig");
+    for (e of cellMarkDiv.getElementsByTagName("img")) {
+        if (e.classList.contains("current")) {
+            cellMarkTypes[e.title] = e.src;
+        } else {
+            delete cellMarkTypes[e.title];
+        }
+    }
+    return true;
+}
+
+function toggleEdgeMarkAvailable(name) {
+    var edgeMarkDiv = document.getElementById("edgemarkconfig");
+    var item = edgeMarkDiv.getElementsByClassName(name)[0];
+    if (item.classList.contains("current")) {
+        item.classList.remove("current");
+    } else {
+        item.classList.add("current");
+    }
+}
+
+function updateEdgeMarks() {
+    var edgeMarkDiv = document.getElementById("edgemarkconfig");
+    for (e of edgeMarkDiv.getElementsByTagName("img")) {
+        if (e.classList.contains("current")) {
+            edgeMarkTypes[e.title] = e.src;
+        } else {
+            delete edgeMarkTypes[e.title];
+        }
+    }
+    return true;
 }

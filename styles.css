@@ -132,7 +132,7 @@ input {
 #palette li, #config li {
     display:inline;
 }
-#palette button, #palette img {
+#palette button, #palette img, #config-modal img {
     margin-right: 5px;
 
 }
@@ -152,25 +152,25 @@ button#savebtn {
     transition:opacity 250ms;
 }
 
-#cellmarks img {
+#cellmarks img, #cellmarkconfig img {
     width: 30px;
     height: 30px;
 }
-#cellmarks img, #edgemarks img, #navigation img {
+#cellmarks img, #edgemarks img, #navigation img, #cellmarkconfig img, #edgemarkconfig img {
     background-color: var(--color-canvas-bg);
     padding:2px;
 }
-#cellmarks img.current, #edgemarks img.current {
+#cellmarks img.current, #edgemarks img.current, #cellmarkconfig img.current, #edgemarkconfig img.current {
     background-color: var(--color-btn-accent);
     padding:0px;
 }
 
-#edgemarks img {
+#edgemarks img, #edgemarkconfig img {
     width: 10px;
     height: 30px;
     padding: 2px 10px;
 }
-#edgemarks img.current {
+#edgemarks img.current, #edgemarkconfig img.current {
     padding: 0px 8px;
 }
 
