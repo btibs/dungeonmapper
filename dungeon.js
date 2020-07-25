@@ -1,7 +1,7 @@
 // Map size
 const WIDTH = 20;
 const HEIGHT = 20;
-const FLOORS = 10;
+var FLOORS = 10;
 
 // Display config
 const PX_CELL = 36;
@@ -107,19 +107,6 @@ function setTheme(theme) {
     document.getElementById("darkmode").checked = theme == "theme-dark";
 }
 
-function newCellType() {
-    var cellName = prompt("Enter tile name:\n(Entering an existing tile name will change its color instead.)");
-    if (cellName == null) return;
-    var cellColor = prompt("Enter hex color code like \"#ffffff\"");
-    if (cellColor == null) return;
-    if (!cellColor.startsWith("#") || cellColor.length != 7) {
-        alert("Invalid color, please try again");
-        return;
-    }
-    cellTypes[cellName] = cellColor;
-    createPalette();
-}
-
 function clearData() {
     data = [];
     for (i = 0; i < FLOORS; i++) {
@@ -166,6 +153,9 @@ function drawGrid() {
         }
     }
 }
+
+//////////////////////////////////////////////////
+// Click events
 
 function handleClick(event) {
     // place tile
@@ -378,6 +368,9 @@ function handleCell(x, y, cellType, mark) {
     redrawEdges();
 }
 
+//////////////////////////////////////////////////
+// Map to JSON
+
 function getMapAsText() {
     var configInfo = {
         "map": {
@@ -438,6 +431,9 @@ function parseMapText(text) {
     createPalette();
     redrawMap();
 }
+
+//////////////////////////////////////////////////
+// Palette setup
 
 function isDarkColor(c) {
     // https://stackoverflow.com/a/12043228/ ... kinda
@@ -546,6 +542,9 @@ function createPalette() {
     floorDiv.appendChild(floorList);
 }
 
+//////////////////////////////////////////////////
+// Current item selections
+
 function changeFloor(i) {
     currentFloor = i;
     redrawMap();
@@ -621,6 +620,9 @@ function changeSelectedEdgeMark(t) {
 
     currentEdgeMark = t;
 }
+
+//////////////////////////////////////////////////
+// Map Transformation
 
 function rotateLeft() {
     var originX = (WIDTH-1)/2;
@@ -865,6 +867,9 @@ function moveRight() {
     redrawMap();
 }
 
+//////////////////////////////////////////////////
+// Map Drawing
+
 function redrawMap() {
     // Clear and re-draw with current data
     ctx.clearRect(0, 0, WIDTH*PX_CELL, HEIGHT*PX_CELL);
@@ -892,7 +897,7 @@ function drawEdge(pt) {
     var ypx = pt.y * PX_CELL;
 
     // Draw the edge
-    if (pt.value != null) {
+    if (pt.value != null && edgeTypes[pt.value] != null) {
         ctx.fillStyle = edgeTypes[pt.value];
 
         // commented parts = fill whole height/width
@@ -934,7 +939,7 @@ function drawEdge(pt) {
     }
 
     // Draw the edge mark
-    if (pt.mark != null) {
+    if (pt.mark != null && edgeMarkTypes[pt.mark] != null) {
         drawEdgeMark(xpx, ypx, pt);
 
         // if wrapped - do it again on the other side
@@ -1006,7 +1011,7 @@ function drawCell(pt) {
     var xpx = pt.x * PX_CELL;
     var ypx = pt.y * PX_CELL;
 
-    if (pt.value != null) {
+    if (pt.value != null && cellTypes[pt.value] != null) {
         ctx.fillStyle = cellTypes[pt.value];
         // commented to fill whole cell
         ctx.fillRect(
@@ -1016,7 +1021,7 @@ function drawCell(pt) {
             PX_CELL);// - PX_WALL_WIDTH);
     }
     
-    if (pt.mark != null) {
+    if (pt.mark != null && cellMarkTypes[pt.mark] != null) {
         var img = new Image();
         img.onload = function() {
             var imgx = xpx + (PX_CELL-img.width)/2;
@@ -1028,6 +1033,7 @@ function drawCell(pt) {
     }
 }
 
+//////////////////////////////////////////////////
 // Local storage
 
 // from MDN: https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
@@ -1125,4 +1131,178 @@ function loadTheme() {
     } catch (e) {
         console.error(e);
     }
+}
+
+//////////////////////////////////////////////////
+// Map Configuration
+
+function showConfig() {
+    var modal = document.getElementById("config-modal");
+    modal.style.display="block";
+
+    // allow clicking outside it to close
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
+    // floors
+    var floorsInput = document.getElementById("numfloors");
+    floorsInput.value = FLOORS;
+    floorsInput.classList = [];
+
+    // tile types
+    var cellTypeTable = document.getElementById("cellconfigtable");
+    // remove everything but header row
+    while (cellTypeTable.childElementCount > 1) {
+        cellTypeTable.removeChild(cellTypeTable.children[1]);
+    }
+    // populate current list
+    for (t in cellTypes) {
+        var tr = document.createElement("tr");
+
+        var td1 = document.createElement("td");
+        var i1 = document.createElement("input");
+        i1.value = t;
+        i1.disabled = "disabled";
+        td1.appendChild(i1);
+        tr.appendChild(td1);
+
+        var td2 = document.createElement("td");
+        var i2 = document.createElement("input");
+        i2.value = cellTypes[t];
+        td2.appendChild(i2);
+        tr.appendChild(td2);
+
+        var td3 = document.createElement("td");
+        var i3 = document.createElement("input");
+        i3.type = "checkbox";
+        td3.appendChild(i3);
+        tr.appendChild(td3);
+
+        cellTypeTable.appendChild(tr);
+    }
+
+    // tile icons
+
+    // edge icons
+}
+
+function hideConfig() {
+    var modal = document.getElementById("config-modal");
+    modal.style.display="none";
+}
+
+function saveConfig() {
+    // floors
+    var valid = updateNumFloors();
+
+    // tile types
+    valid &= updateCellTypes();
+
+    if (!valid) {
+        return; // don't update or close so user can correct
+    }
+
+    // Refresh controls
+    createPalette();
+    hideConfig();
+    redrawMap();
+}
+
+function updateNumFloors() {
+    var floorsInput = document.getElementById("numfloors");
+    var newFloors = floorsInput.value;
+
+    if (newFloors <= 0) {
+        console.error("Invalid number of floors!");
+        floorsInput.classList = ["input-error"];
+        return false;
+    } else {
+        floorsInput.classList = [];
+    }
+
+    if (newFloors == FLOORS) {
+        return true;
+    }
+
+    if (currentFloor >= newFloors) {
+        changeFloor(newFloors-1);
+    }
+
+    if (newFloors < FLOORS) {
+        // delete extra floors
+        for (i = newFloors; i < FLOORS; i++) {
+            data.pop();
+        }
+    } else {
+        // add new floors
+        for (i = FLOORS; i < newFloors; i++) {
+            data.push({"cells":[], "edges":[]});
+        }
+    }
+    FLOORS = newFloors;
+    return true;
+}
+
+function newCellType() {
+    var cellTypeTable = document.getElementById("cellconfigtable");
+    var tr = document.createElement("tr");
+
+    var td1 = document.createElement("td");
+    var i1 = document.createElement("input");
+    td1.appendChild(i1);
+    tr.appendChild(td1);
+
+    var td2 = document.createElement("td");
+    var i2 = document.createElement("input");
+    td2.appendChild(i2);
+    tr.appendChild(td2);
+
+    var td3 = document.createElement("td");
+    var i3 = document.createElement("input");
+    i3.type = "checkbox";
+    td3.appendChild(i3);
+    tr.appendChild(td3);
+
+    cellTypeTable.appendChild(tr);
+}
+
+function updateCellTypes() {
+    var cellTypeTable = document.getElementById("cellconfigtable");
+    var valid = true;
+
+    // clone temporarily so we don't mess up the list if it fails
+    var updatedCellTypes = JSON.parse(JSON.stringify(cellTypes));
+    for (i = 1; i < cellTypeTable.childElementCount; i++) {
+        var tr = cellTypeTable.children[i];
+        var name = tr.children[0].children[0].value;
+        var color = tr.children[1].children[0].value;
+        var toDelete = tr.children[2].children[0].checked;
+        console.log(name,color,toDelete);
+
+        if (toDelete) {
+            delete updatedCellTypes[name];
+            if (currentCellType == name) {
+                changeSelectedCellType(Object.keys(updatedCellTypes)[0]);
+            }
+        } else {
+            if (color.startsWith("#") && color.length == 7) {
+                updatedCellTypes[name] = color;
+                tr.children[1].children[0].classList = [];
+            } else {
+                tr.children[1].children[0].classList = ["input-error"];
+                valid = false;
+            }
+        }
+    }
+
+    if (valid) {
+        cellTypes = updatedCellTypes;
+        //TODO: delete cells in data that were a deleted type?
+    } else {
+        console.error("Invalid entries, cell changes were not saved");
+    }
+    return valid;
 }

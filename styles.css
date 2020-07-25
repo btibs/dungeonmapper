@@ -64,7 +64,7 @@ button, .button {
     font-size:14px;
     text-decoration:none;
 }
-button:disabled{
+:disabled{
     opacity: 0.6;
 }
 a.button {
@@ -177,6 +177,31 @@ button#savebtn {
 #config h3, #config ul {
     display:inline;
 }
+
+#config-modal {
+    display:none;
+    position:fixed;
+    z-index:1;
+    left:0;
+    right:0;
+    top:0;
+    width:100%;
+    height:100%;
+    overflow:auto;
+    background-color: rgb(0.5,0.5,0.5); /* Fallback color */
+    background-color: rgba(0.5,0.5,0.5,0.4); /* Black w/ opacity */
+}
+
+#config-modal .content {
+    background-color:var(--color-bg);
+    border: 1px solid var(--color-btn-border);
+    margin:auto;
+    margin-top:100px;
+    margin-bottom:100px;
+    padding:20px;
+    width:80%;
+}
+
 #links {
     margin: 20px 0px;
 }
@@ -202,7 +227,7 @@ button#savebtn {
     padding:3px;
 }
 
-#clearbtn {
+.warningbtn {
     color: var(--color-err);
     float:right;
 }
@@ -211,4 +236,12 @@ button#savebtn {
     margin-bottom:20px;
     font-size:0.8em;
     float:right;
+}
+
+#cellconfigtable td {
+    text-align:center;
+}
+
+.input-error {
+    background-color:var(--color-err);
 }

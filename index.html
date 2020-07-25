@@ -24,9 +24,10 @@
         <canvas id="mapcanvas"></canvas>
         <div id="config">
             <ul>
-                <li><button onclick="newCellType()">New Tile Type</button></li>
+                <!-- <li><button onclick="newCellType()">New Tile Type</button></li> -->
+                <li><button onclick="showConfig()">Configure Map</button></li>
                 <li><a class="button" id="exportLink" onClick="exportMap()">Export Map File</a></li>
-                <li><button id="clearbtn" onclick="clearMap()" title="Wipes the current map. This cannot be undone!">Clear Map</button></li>
+                <li><button class="warningbtn" onclick="clearMap()" title="Wipes the current map. This cannot be undone!">Clear Map</button></li>
             </ul>
             <div id="links">
                 <input type="file" id="uploadfile" onchange="enableLoad()" />
@@ -79,6 +80,37 @@
         </div>
     </div>
 </div>
+
+<div id="config-modal">
+    <div class="content">
+        <h1>Map configuration</h1>
+        <p><b>Warning:</b> Deleting tiles or icons here or reducing the number of floors will delete any points of those types in your map!</p>
+        <hr/>
+        Number of floors: <input id="numfloors" type="number" value="1" min="1"/>
+        <hr/>
+        <h2>Tile Types</h2>
+        <div id="cellconfig">
+            <table id="cellconfigtable">
+                <tr>
+                    <th>Name</th>
+                    <th>Color</th>
+                    <th>Delete?</th>
+                </tr>
+            </table>
+            <button onclick="newCellType()">Add</button>
+        </div>
+<!--         <hr/>
+        <h2>Tile Icons</h2>
+        <div id="cellmarkconfig"></div>
+        <hr/>
+        <h2>Wall Icons</h2>
+        <div id="edgemarkconfig"></div>
+ -->        <br/>
+        <button onclick="hideConfig()">Cancel</button>
+        <button class="warningbtn" onclick="saveConfig()">Apply Changes</button>
+    </div>
+</div>
+
 <div id="footer">
     <a href="https://github.com/btibs/dungeonmapper">View project on GitHub!</a>
 </div>
