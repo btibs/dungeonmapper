@@ -69,7 +69,7 @@ var data = [];
 var cellTypes = {
     "explored": "#eeeecc",
     "rock": "#444444",
-    "darkness": "#000000",
+    "darkness": "#221155",
     "water": "#4488cc",
     "no magic zone": "#cc4466"
 };
