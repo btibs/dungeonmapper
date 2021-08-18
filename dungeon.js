@@ -35,9 +35,10 @@ const ALL_CELL_MARKS = {
     "qmark": "markers/qmark.png",
     "epoint": "markers/epoint.png",
     "pittrap": "markers/pittrap.png",
+    "falling_rock": "markers/falling_rock.png",
     "elevator": "markers/elevator.png",
     "teleporter": "markers/teleporter.png",
-    "pressF": "markers/pressF.png",
+    "teleport_destination": "markers/teleport_destination.png",
     "rotate_random": "markers/tile_rotate_random.png",
     "rotate_ccw": "markers/tile_rotate_ccw.png",
     "rotate_cw": "markers/tile_rotate_cw.png",
@@ -46,20 +47,24 @@ const ALL_CELL_MARKS = {
     "statue_wsol": "markers/statue_wsol.png",
     "amulet": "markers/amulet.png",
     "chute": "markers/chute.png",
+    "chute_bottom": "markers/chute_bottom.png",
     "exit": "markers/exit.png",
-    "teleport_destination": "markers/teleport_destination.png"
+    "monster": "markers/monster.png",
+    "pressF": "markers/pressF.png"
 };
 
 // All possible edge icons: 10x30px; are directional
 const ALL_EDGE_MARKS = {
     "door": "markers/door_v.png",
+    "door_locked": "markers/door_locked.png",
     "door_v_1r": "markers/door_v_1r.png",
     "door_v_1l": "markers/door_v_1l.png",
     "door_sec": "markers/door_sec.png",
     "door_sec_l": "markers/door_sec_1l.png",
     "door_sec_r": "markers/door_sec_1r.png",
     "oneway_wall_1": "markers/oneway_wall_1.png",
-    "oneway_wall_2": "markers/oneway_wall_2.png"
+    "oneway_wall_2": "markers/oneway_wall_2.png",
+    "collapsable_wall": "markers/collapsable_wall.png"
 }
 
 // Map Data
@@ -69,7 +74,7 @@ var data = [];
 var cellTypes = {
     "explored": "#eeeecc",
     "rock": "#444444",
-    "darkness": "#221155",
+    "darkness": "#333372",
     "water": "#4488cc",
     "no magic zone": "#cc4466"
 };
@@ -80,13 +85,18 @@ var cellMarkTypes = {
     "qmark": "markers/qmark.png",
     "epoint": "markers/epoint.png",
     "pittrap": "markers/pittrap.png",
+    "falling_rock": "markers/falling_rock.png",
     "elevator": "markers/elevator.png",
     "teleporter": "markers/teleporter.png",
+    "teleport_destination": "markers/teleport_destination.png",
+    "exit": "markers/exit.png",
+    "monster": "markers/monster.png",
     "pressF": "markers/pressF.png"
 };
 var edgeTypes = {"wall": "#444444"};//, "door": "#ffaaff"};
 var edgeMarkTypes = {
     "door": "markers/door_v.png",
+    "door_locked": "markers/door_locked.png",
     "door_v_1r": "markers/door_v_1r.png",
     "door_v_1l": "markers/door_v_1l.png",
     "door_sec": "markers/door_sec.png",
