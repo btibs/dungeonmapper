@@ -262,10 +262,10 @@ function handleRightClick(event) {
         // Handle cell contents
         
         if (event.ctrlKey) {
-			// Ctrl is held down: add a text label using the value in the Icon Label field
+            // Ctrl is held down: add a text label using the value in the Icon Label field
             handleCell(x, y, null, null, document.getElementById("icon_label_text").value, currentLabelFill);
         } else {
-			// Ctrl is not held down: place an icon
+            // Ctrl is not held down: place an icon
             handleCell(x, y, null, currentCellMark, null, null);
         }
     }
@@ -1141,7 +1141,7 @@ function drawCell(pt) {
         };
         img.src = cellMarkTypes[pt.mark];
     } else {
-		// No marker is drawn - draw the title label
+        // No marker is drawn - draw the title label
         drawLabel(pt);
     }
 }
