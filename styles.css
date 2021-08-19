@@ -133,6 +133,10 @@ label {
     display:inline;
 }
 
+#help li{
+    padding-bottom:8px;
+}
+
 #palette li, #config li {
     display:inline;
 }
@@ -167,6 +171,16 @@ button#savebtn {
 #cellmarks img.current, #edgemarks img.current, #cellmarkconfig img.current, #edgemarkconfig img.current {
     background-color: var(--color-btn-accent);
     padding:0px;
+}
+
+#icon_labels h3, #icon_labels div {
+    padding-right:5px;
+    display:inline;
+}
+
+#label_fill_colors button {
+    width:20px;
+    height:20px;
 }
 
 #edgemarks img, #edgemarkconfig img {

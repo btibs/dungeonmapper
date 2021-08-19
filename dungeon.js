@@ -93,6 +93,14 @@ var cellMarkTypes = {
     "monster": "markers/monster.png",
     "pressF": "markers/pressF.png"
 };
+var labelFillTypes = {
+    "white": "#ffffff",
+    "ex_yellow": "#eeeecc",
+    "sel_yellow": "#ffff77",
+    "tp_cyan": "#34ddff",
+    "red": "#ff0000",
+    "black": "#000000"
+};
 var edgeTypes = {"wall": "#444444"};//, "door": "#ffaaff"};
 var edgeMarkTypes = {
     "door": "markers/door_v.png",
@@ -108,6 +116,7 @@ var edgeMarkTypes = {
 var currentFloor = 0;
 var currentCellType = Object.entries(cellTypes)[0][0];
 var currentCellMark = Object.entries(cellMarkTypes)[0][0];
+var currentLabelFill = Object.entries(labelFillTypes)[0][0];
 var currentEdgeType = Object.entries(edgeTypes)[0][0];
 var currentEdgeMark = Object.entries(edgeMarkTypes)[0][0];
 
@@ -225,7 +234,7 @@ function handleClick(event) {
         // clicked on top half
         handleHorizEdge(x, y+1, currentEdgeType, null);
     } else {
-        handleCell(x, y, currentCellType, null);
+        handleCell(x, y, currentCellType, null, null, null);
     }
 }
 
@@ -238,7 +247,7 @@ function handleRightClick(event) {
     
     var x = Math.floor(clickX / PX_CELL);
     var y = Math.floor(clickY / PX_CELL);
-
+    
     if (clickX % PX_CELL <= PX_EDGE_TOLERANCE/2) {
         handleVertEdge(x, y, null, currentEdgeMark);
     } else if (PX_CELL - clickX % PX_CELL <= PX_EDGE_TOLERANCE/2) {
@@ -250,7 +259,15 @@ function handleRightClick(event) {
         // clicked on top half
         handleHorizEdge(x, y+1, null, currentEdgeMark);
     } else {
-        handleCell(x, y, null, currentCellMark);
+        // Handle cell contents
+        
+        if (event.ctrlKey) {
+            // Ctrl is held down: add a text label using the value in the Icon Label field
+            handleCell(x, y, null, null, document.getElementById("icon_label_text").value, currentLabelFill);
+        } else {
+            // Ctrl is not held down: place an icon
+            handleCell(x, y, null, currentCellMark, null, null);
+        }
     }
 }
 
@@ -385,7 +402,7 @@ function handleHorizEdge(x, y, edgeType, mark) {
     drawEdge(point);
 }
 
-function handleCell(x, y, cellType, mark) {
+function handleCell(x, y, cellType, mark, label, labelFill) {
     // Find old value if exists
     var old;
     for (i = 0; i < data[currentFloor].cells.length; i++) {
@@ -403,13 +420,19 @@ function handleCell(x, y, cellType, mark) {
         "x": x,
         "y": y,
         "value": cellType,
-        "mark": mark
+        "mark": mark,
+        "label": label,
+        "labelFill": labelFill
     };
-
+    
     // Copy old values (if changing bg or fg only)
     if (old != null) {
         if (cellType == null) point.value = old.value;
         if (mark == null) point.mark = old.mark;
+        if (label == null) {
+            point.label = old.label;
+            point.labelFill = old.labelFill;
+        }
     }
 
     data[currentFloor].cells.push(point);
@@ -553,7 +576,22 @@ function createPalette() {
         ul.appendChild(li);
     }
     cellMarkDiv.appendChild(ul);
+    
+    // Label Fill Colors
+    var labelFillDiv = document.getElementById("label_fill_colors");
+    labelFillDiv.innerHTML = "";
+        for (const [key, value] of Object.entries(labelFillTypes)) {
+        var btn = document.createElement("button");
+        btn.setAttribute("onclick", "changeSelectedLabelFill('" + key + "')");
+        btn.name = key;
+        btn.style = "background-color: " + value + ";";
+        labelFillDiv.appendChild(btn);
 
+        if (key == currentLabelFill) {
+            btn.classList.add("current");
+        }
+    }
+    
     // Edge Marks
     var edgeMarkDiv = document.getElementById("edgemarks");
     edgeMarkDiv.innerHTML = "";
@@ -638,6 +676,22 @@ function changeSelectedCellMark(t) {
     }
 
     currentCellMark = t;
+}
+
+function changeSelectedLabelFill(t) {
+    // Update button
+    var labelFillColorsDiv = document.getElementById("label_fill_colors");
+    labelFillColorsDiv.getElementsByClassName("current")[0].classList.remove("current");
+
+    var btns = labelFillColorsDiv.getElementsByTagName("button");
+    for (i = 0; i < btns.length; i++) {
+        if (btns[i].name == t) {
+            btns[i].classList.add("current");
+            break;
+        }
+    }
+
+    currentLabelFill = t;
 }
 
 // function changeSelectedEdgeType(t) {
@@ -1061,7 +1115,8 @@ function drawEdgeMark(xpx, ypx, pt) {
 function drawCell(pt) {
     var xpx = pt.x * PX_CELL;
     var ypx = pt.y * PX_CELL;
-
+    
+    // Fill in the cell with the tile color
     if (pt.value != null && cellTypes[pt.value] != null) {
         ctx.fillStyle = cellTypes[pt.value];
         // commented to fill whole cell
@@ -1072,6 +1127,7 @@ function drawCell(pt) {
             PX_CELL);// - PX_WALL_WIDTH);
     }
     
+    // Draw the tile icon
     if (pt.mark != null && cellMarkTypes[pt.mark] != null) {
         var img = new Image();
         img.onload = function() {
@@ -1079,8 +1135,33 @@ function drawCell(pt) {
             var imgy = ypx + (PX_CELL-CELL_IMG_HEIGHT)/2;
             ctx.drawImage(img, imgx, imgy, CELL_IMG_WIDTH, CELL_IMG_HEIGHT);
             img = null;
+            
+            // Draw the tile label
+            drawLabel(pt);
         };
         img.src = cellMarkTypes[pt.mark];
+    } else {
+        // No marker is drawn - draw the title label
+        drawLabel(pt);
+    }
+}
+
+function drawLabel(pt) {
+    if (pt.label != null) {
+        var xOff = ((pt.x + 1)*PX_CELL)-PX_WALL_WIDTH;
+        var yOff = ((pt.y + 1)*PX_CELL)-PX_WALL_WIDTH;
+        var filcol = labelFillTypes[pt.labelFill];
+        
+        ctx.font = '18px WerdnasReturn, Do Hyeon, Courier, sans-serif';
+        ctx.textAlign = "right";
+        
+        ctx.strokeStyle = isDarkColor(filcol) ? "#ffffff" : "#000000";
+        ctx.lineWidth = 4;
+        ctx.strokeText(pt.label, xOff, yOff, PX_CELL);
+        
+        ctx.fillStyle = filcol;
+        ctx.fillText(pt.label, xOff, yOff, PX_CELL);
+        
     }
 }
 
