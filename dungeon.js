@@ -239,7 +239,6 @@ function handleClick(event) {
 }
 
 function handleRightClick(event) {
-    
     // place marker
     event.preventDefault();
     
@@ -262,12 +261,11 @@ function handleRightClick(event) {
     } else {
         // Handle cell contents
         
-        // Ctrl is held down: add a text label using the value in the Icon Label field
         if (event.ctrlKey) {
+			// Ctrl is held down: add a text label using the value in the Icon Label field
             handleCell(x, y, null, null, document.getElementById("icon_label_text").value, currentLabelFill);
-        }
-        // Ctrl is not held down: place an icon
-        else {
+        } else {
+			// Ctrl is not held down: place an icon
             handleCell(x, y, null, currentCellMark, null, null);
         }
     }
@@ -585,13 +583,8 @@ function createPalette() {
         for (const [key, value] of Object.entries(labelFillTypes)) {
         var btn = document.createElement("button");
         btn.setAttribute("onclick", "changeSelectedLabelFill('" + key + "')");
-        //btn.innerHTML = key;
         btn.name = key;
-        if (isDarkColor(value)) {
-            btn.style = "background-color: " + value + "; color:white";
-        } else {
-            btn.style = "background-color: " + value + "; color:black";
-        }
+        btn.style = "background-color: " + value + ";";
         labelFillDiv.appendChild(btn);
 
         if (key == currentLabelFill) {
@@ -1147,10 +1140,8 @@ function drawCell(pt) {
             drawLabel(pt);
         };
         img.src = cellMarkTypes[pt.mark];
-    }
-    // No marker is drawn
-    else {
-        // Draw the tile label
+    } else {
+		// No marker is drawn - draw the title label
         drawLabel(pt);
     }
 }
