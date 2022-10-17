@@ -76,7 +76,8 @@ var cellTypes = {
     "rock": "#444444",
     "darkness": "#6257b3",
     "water": "#47a2e1",
-    "no magic zone": "#cc4466"
+    "no-magic zone": "#cc4466",
+    "outside": "#b0da91"
 };
 var cellMarkTypes = {
     "ladder_up": "markers/ladder_up.png",
