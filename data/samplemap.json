@@ -8,8 +8,8 @@
     "cellTypes": {
       "explored": "#eeeecc",
       "rock": "#444444",
-      "water": "#4444ee",
-      "darkness": "#000000"
+      "water": "#47a2e1",
+      "darkness": "#6257b3"
     },
     "edgeTypes": {
       "wall": "#444444"
