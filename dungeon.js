@@ -74,8 +74,8 @@ var data = [];
 var cellTypes = {
     "explored": "#eeeecc",
     "rock": "#444444",
-    "darkness": "#333372",
-    "water": "#4488cc",
+    "darkness": "#6257b3",
+    "water": "#47a2e1",
     "no magic zone": "#cc4466"
 };
 var cellMarkTypes = {
