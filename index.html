@@ -66,9 +66,9 @@
             <h3>Move Map</h3>
             <table>
                 <tr>
-                    <td><img class="rotate" title="rotate CCW" onclick="rotateLeft()" src="icons/rotate_ccw.png" /></td>
+                    <td><img class="rotate" title="rotate CCW" onclick="rotateCounterClockwise()" src="icons/rotate_ccw.png" /></td>
                     <td><img title="translate up" onclick="moveUp()" src="icons/arrow_up.png" /></td>
-                    <td><img class="rotate" title="rotate CW" onclick="rotateRight()" src="icons/rotate_cw.png" /></td>
+                    <td><img class="rotate" title="rotate CW" onclick="rotateClockwise()" src="icons/rotate_cw.png" /></td>
                 </tr>
                 <tr>
                     <td><img title="translate left" onclick="moveLeft()" src="icons/arrow_left.png" /></td>
@@ -93,9 +93,11 @@
 <div id="config-modal">
     <div class="content">
         <h1>Map configuration</h1>
-        <p><b>Warning:</b> Deleting tiles or icons here or reducing the number of floors will delete any points of those types in your map!</p>
+        <p><b><font color="red">Warning:</font></b> Deleting tiles/icons here, or reducing the number of floors or tile side length will <b>delete</b> any points of those types in your map!</p>
         <hr/>
-        Number of floors: <input id="numfloors" type="number" value="1" min="1"/>
+        Number of floors: <input id="numfloors" type="number" value="10" min="1"/>
+		<br/>
+        Tile side length: <input id="sidelength" type="number" value="20" min="1"/>
         <hr/>
         <h2>Tile Types</h2>
         <div id="cellconfig">

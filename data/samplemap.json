@@ -7,7 +7,7 @@
     },
     "cellTypes": {
       "explored": "#eeeecc",
-      "rock": "#444444",
+      "rock": "#555555",
       "water": "#47a2e1",
       "darkness": "#6257b3"
     },

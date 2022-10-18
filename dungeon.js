@@ -1,6 +1,6 @@
 // Map size
-const WIDTH = 20;
-const HEIGHT = 20;
+var WIDTH = 20;
+var HEIGHT = 20;
 var FLOORS = 10;
 
 // Display config
@@ -73,7 +73,7 @@ var data = [];
 // Some default tiles and markers
 var cellTypes = {
     "explored": "#eeeecc",
-    "rock": "#444444",
+    "rock": "#555555",
     "darkness": "#6257b3",
     "water": "#47a2e1",
     "no-magic zone": "#cc4466",
@@ -134,9 +134,7 @@ window.onload = function() {
     // Initialize canvas
     canvas = document.getElementById("mapcanvas");
     ctx = canvas.getContext("2d");
-    canvas.width = WIDTH*PX_CELL;
-    canvas.height = HEIGHT*PX_CELL;
-    drawGrid();
+    redrawCanvas();
 
     // Set up click listeners
     canvas.addEventListener("click", function(event) {
@@ -151,6 +149,12 @@ window.onload = function() {
 
     // Prevent from selecting the canvas element
     canvas.onselectstart = function () { return false; }
+}
+
+function redrawCanvas() {
+    canvas.width = WIDTH*PX_CELL;
+    canvas.height = HEIGHT*PX_CELL;
+    drawGrid();
 }
 
 function toggleTheme() {
@@ -730,7 +734,7 @@ function changeSelectedEdgeMark(t) {
 //////////////////////////////////////////////////
 // Map Transformation
 
-function rotateLeft() {
+function rotateCounterClockwise() {
     var originX = (WIDTH-1)/2;
     var originY = (HEIGHT-1)/2;
     var s = -1;
@@ -816,7 +820,7 @@ function rotateLeft() {
     redrawMap();
 }
 
-function rotateRight() {
+function rotateClockwise() {
     var originX = (WIDTH-1)/2;
     var originY = (HEIGHT-1)/2;
     var s = 1;
@@ -980,6 +984,9 @@ function redrawMap() {
     // Clear and re-draw with current data
     ctx.clearRect(0, 0, WIDTH*PX_CELL, HEIGHT*PX_CELL);
     drawGrid();
+    
+    // Remove OOB cells and edges
+    cullOutsideCellsAndEdges(HEIGHT);
     
     // cells first
     for (i = 0; i < data[currentFloor].cells.length; i++) {
@@ -1284,7 +1291,12 @@ function showConfig() {
     var floorsInput = document.getElementById("numfloors");
     floorsInput.value = FLOORS;
     floorsInput.classList = [];
-
+    
+    // side length
+    var sidelengthInput = document.getElementById("sidelength");
+    sidelengthInput.value = HEIGHT;
+    sidelengthInput.classList = [];
+    
     // tile types
     var cellTypeTable = document.getElementById("cellconfigtable");
     // remove everything but header row
@@ -1367,6 +1379,7 @@ function hideConfig() {
 
 function saveConfig() {
     var valid = updateNumFloors();
+    valid &= updateSideLength();
     valid &= updateCellTypes();
     valid &= updateCellMarks();
     valid &= updateEdgeMarks();
@@ -1374,7 +1387,9 @@ function saveConfig() {
     if (!valid) {
         return; // don't update or close so user can correct
     }
-
+    
+    redrawCanvas();
+    
     // Refresh controls
     createPalette();
     hideConfig();
@@ -1412,8 +1427,54 @@ function updateNumFloors() {
             data.push({"cells":[], "edges":[]});
         }
     }
+    
     FLOORS = newFloors;
     return true;
+}
+
+function updateSideLength() {
+    var sidelengthInput = document.getElementById("sidelength");
+    var newSideLength = sidelengthInput.value;
+    
+    if (newSideLength <= 0) {
+        console.error("Invalid map size!");
+        sidelengthInput.classList = ["input-error"];
+        return false;
+    } else {
+        sidelengthInput.classList = [];
+    }
+
+    if (newSideLength == HEIGHT) {
+        return true;
+    }
+    
+    if (newSideLength < HEIGHT) {
+        // modify cell content to account for new size
+        cullOutsideCellsAndEdges(newSideLength);
+    }
+    
+    HEIGHT = newSideLength;
+    WIDTH = newSideLength;
+    return true;
+}
+
+function cullOutsideCellsAndEdges(sidelength) {
+    for (fl = 0; fl < data.length; fl++) {
+        // cull OOB cells
+        for (i = data[fl].cells.length-1; i >= 0; i--) {
+            var pt = data[fl].cells[i];
+            if (pt.x >= sidelength || pt.y >= sidelength) {
+                data[fl].cells.splice(i, 1);
+            }
+        }
+        // cull OOB edges
+        for (i = data[fl].edges.length-1; i >= 0; i--) {
+            var pt = data[fl].edges[i];
+            if (pt.x >= sidelength || pt.y >= sidelength) {
+                data[fl].edges.splice(i, 1);
+            }
+        }
+    }
 }
 
 function newCellType() {
