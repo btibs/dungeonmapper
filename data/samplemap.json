@@ -3,7 +3,7 @@
     "map": {
       "width": 20,
       "height": 20,
-      "floors": 10
+      "floors": "3"
     },
     "cellTypes": {
       "explored": "#eeeecc",
@@ -22,189 +22,775 @@
       "epoint": "markers/epoint.png",
       "pittrap": "markers/pittrap.png",
       "elevator": "markers/elevator.png",
-      "teleporter": "markers/teleporter.png"
+      "teleporter": "markers/teleporter.png",
+      "teleport_destination": "markers/teleport_destination.png",
+      "chute": "markers/chute.png",
+      "exit": "markers/exit.png",
+      "pressF": "markers/pressF.png",
+      "chute_bottom": "markers/chute_bottom.png",
+      "rotate_random": "markers/tile_rotate_random.png"
     },
     "edgeMarkTypes": {
       "door": "markers/door_v.png",
       "door_v_1r": "markers/door_v_1r.png",
       "door_v_1l": "markers/door_v_1l.png",
       "door_sec": "markers/door_sec.png",
-      "door_sec_r": "markers/door_sec_1l.png",
-      "door_sec_l": "markers/door_sec_1r.png"
+      "door_sec_r": "markers/door_sec_1r.png",
+      "door_sec_l": "markers/door_sec_1l.png",
+      "door_locked": "markers/door_locked.png"
     }
   },
   "data": [
     {
       "cells": [
         {
-          "x": 5,
-          "y": 5,
+          "x": 4,
+          "y": 9,
           "value": "explored",
-          "mark": null
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 4,
+          "y": 10,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 4,
+          "y": 11,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
         },
         {
           "x": 5,
+          "y": 11,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 6,
+          "y": 11,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 7,
+          "y": 11,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 8,
+          "y": 11,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 7,
+          "y": 10,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 7,
+          "y": 9,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 7,
+          "y": 8,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 8,
+          "y": 10,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 5,
+          "y": 12,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 5,
+          "y": 13,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 5,
+          "y": 14,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 6,
+          "y": 13,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 6,
+          "y": 12,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 9,
+          "y": 11,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 10,
+          "y": 11,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 11,
+          "y": 11,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 12,
+          "y": 11,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 13,
+          "y": 11,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 11,
+          "y": 9,
+          "value": "darkness",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 11,
+          "y": 10,
+          "value": "darkness",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 11,
+          "y": 8,
+          "value": "explored",
+          "mark": "teleporter",
+          "label": "A",
+          "labelFill": "white"
+        },
+        {
+          "x": 13,
+          "y": 10,
+          "value": "darkness",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 13,
+          "y": 9,
+          "value": "darkness",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 13,
+          "y": 12,
+          "value": "darkness",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 11,
+          "y": 12,
+          "value": "darkness",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 8,
           "y": 6,
           "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 7,
+          "y": 7,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 8,
+          "y": 8,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 8,
+          "y": 9,
+          "value": "explored",
+          "mark": "teleport_destination",
+          "label": "A",
+          "labelFill": "white"
+        },
+        {
+          "x": 7,
+          "y": 6,
+          "value": "explored",
+          "mark": "key",
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 4,
+          "y": 8,
+          "value": "explored",
+          "mark": "exit",
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 15,
+          "y": 11,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 14,
+          "y": 11,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 8,
+          "y": 7,
+          "value": "explored",
+          "mark": "qmark",
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 9,
+          "y": 7,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 9,
+          "y": 6,
+          "value": "explored",
+          "mark": "chute",
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 16,
+          "y": 11,
+          "value": "explored",
+          "mark": "ladder_down",
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 13,
+          "y": 8,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 6,
+          "y": 14,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 9,
+          "y": 12,
+          "value": "explored",
+          "mark": "pressF",
+          "label": null,
+          "labelFill": null
+        }
+      ],
+      "edges": [
+        {
+          "x": 4,
+          "y": 8,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 4,
+          "y": 8,
+          "value": "wall",
+          "rotation": 90,
           "mark": null
         },
         {
           "x": 5,
-          "y": 7,
-          "value": "water",
+          "y": 8,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 4,
+          "y": 9,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 4,
+          "y": 10,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 4,
+          "y": 11,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 4,
+          "y": 12,
+          "value": "wall",
+          "rotation": 90,
           "mark": null
         },
         {
           "x": 6,
-          "y": 6,
-          "value": "explored",
+          "y": 12,
+          "value": "wall",
+          "rotation": 90,
           "mark": null
         },
         {
           "x": 7,
-          "y": 6,
-          "value": "explored",
+          "y": 12,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 8,
+          "y": 12,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 5,
+          "y": 9,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 5,
+          "y": 10,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 5,
+          "y": 11,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 6,
+          "y": 11,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 8,
+          "y": 11,
+          "value": "wall",
+          "rotation": 90,
           "mark": null
         },
         {
           "x": 7,
-          "y": 7,
-          "value": "explored",
+          "y": 10,
+          "value": "wall",
+          "rotation": 0,
           "mark": null
         },
         {
-          "x": 8,
-          "y": 6,
-          "value": "rock",
-          "mark": null
-        },
-        {
-          "x": 8,
-          "y": 7,
-          "value": "rock",
+          "x": 7,
+          "y": 9,
+          "value": "wall",
+          "rotation": 0,
           "mark": null
         },
         {
           "x": 7,
           "y": 8,
-          "value": "rock",
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 7,
+          "y": 8,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 9,
+          "y": 8,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 9,
+          "y": 9,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 9,
+          "y": 10,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 9,
+          "y": 12,
+          "value": "wall",
+          "rotation": 90,
+          "mark": "door"
+        },
+        {
+          "x": 9,
+          "y": 11,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 10,
+          "y": 11,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 5,
+          "y": 12,
+          "value": "wall",
+          "rotation": 90,
+          "mark": "door"
+        },
+        {
+          "x": 5,
+          "y": 12,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 5,
+          "y": 13,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 5,
+          "y": 14,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 5,
+          "y": 15,
+          "value": "wall",
+          "rotation": 90,
           "mark": null
         },
         {
           "x": 6,
+          "y": 15,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 7,
+          "y": 14,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 7,
+          "y": 13,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 7,
+          "y": 12,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 11,
+          "y": 10,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 11,
+          "y": 9,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 11,
           "y": 8,
-          "value": "rock",
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 11,
+          "y": 8,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 12,
+          "y": 8,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 12,
+          "y": 9,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 12,
+          "y": 10,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 7,
+          "y": 11,
+          "value": "wall",
+          "rotation": 90,
+          "mark": "door_v_1r"
+        },
+        {
+          "x": 10,
+          "y": 12,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 11,
+          "y": 12,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 13,
+          "y": 10,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 13,
+          "y": 9,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 13,
+          "y": 8,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 13,
+          "y": 8,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 14,
+          "y": 8,
+          "value": "wall",
+          "rotation": 0,
           "mark": null
         },
         {
           "x": 14,
           "y": 9,
-          "value": "darkness",
+          "value": "wall",
+          "rotation": 0,
           "mark": null
         },
         {
           "x": 14,
           "y": 10,
-          "value": "darkness",
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 12,
+          "y": 12,
+          "value": "wall",
+          "rotation": 0,
           "mark": null
         },
         {
           "x": 13,
-          "y": 10,
-          "value": "darkness",
+          "y": 12,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 14,
+          "y": 12,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 12,
+          "y": 12,
+          "value": "wall",
+          "rotation": 90,
           "mark": null
         },
         {
           "x": 12,
           "y": 11,
-          "value": "darkness",
-          "mark": null
-        },
-        {
-          "x": 6,
-          "y": 7,
-          "value": "explored",
-          "mark": "key"
-        },
-        {
-          "x": 12,
-          "y": 5,
-          "value": "explored",
-          "mark": "elevator"
-        },
-        {
-          "x": 19,
-          "y": 7,
-          "value": "explored",
-          "mark": null
-        },
-        {
-          "x": 18,
-          "y": 7,
-          "value": "explored",
-          "mark": null
-        },
-        {
-          "x": 13,
-          "y": 5,
-          "value": "explored",
-          "mark": null
-        },
-        {
-          "x": 14,
-          "y": 5,
-          "value": "explored",
-          "mark": null
-        },
-        {
-          "x": 14,
-          "y": 6,
-          "value": "explored",
-          "mark": null
-        },
-        {
-          "x": 14,
-          "y": 7,
-          "value": "explored",
-          "mark": null
-        },
-        {
-          "x": 15,
-          "y": 7,
-          "value": "explored",
-          "mark": null
-        },
-        {
-          "x": 17,
-          "y": 7,
-          "value": "explored",
-          "mark": null
-        },
-        {
-          "x": 16,
-          "y": 7,
-          "value": "explored",
-          "mark": null
-        }
-      ],
-      "edges": [
-        {
-          "x": 6,
-          "y": 7,
           "value": "wall",
           "rotation": 90,
           "mark": null
         },
         {
-          "x": 6,
-          "y": 7,
+          "x": 14,
+          "y": 11,
           "value": "wall",
-          "rotation": 0,
+          "rotation": 90,
           "mark": null
         },
         {
-          "x": 6,
-          "y": 8,
+          "x": 14,
+          "y": 12,
           "value": "wall",
           "rotation": 90,
           "mark": null
@@ -214,156 +800,102 @@
           "y": 7,
           "value": "wall",
           "rotation": 0,
-          "mark": "door_v_1r"
+          "mark": null
         },
         {
           "x": 7,
           "y": 6,
           "value": "wall",
           "rotation": 0,
-          "mark": "door"
+          "mark": null
         },
         {
           "x": 7,
-          "y": 8,
-          "value": null,
-          "rotation": 90,
-          "mark": "door_sec"
-        },
-        {
-          "x": 14,
           "y": 6,
           "value": "wall",
-          "rotation": 0,
-          "mark": null
-        },
-        {
-          "x": 14,
-          "y": 7,
-          "value": "wall",
-          "rotation": 0,
-          "mark": null
-        },
-        {
-          "x": 14,
-          "y": 8,
-          "value": "wall",
           "rotation": 90,
           "mark": null
         },
         {
-          "x": 15,
-          "y": 8,
-          "value": "wall",
-          "rotation": 90,
-          "mark": null
-        },
-        {
-          "x": 16,
-          "y": 8,
-          "value": "wall",
-          "rotation": 90,
-          "mark": null
-        },
-        {
-          "x": 17,
-          "y": 8,
-          "value": "wall",
-          "rotation": 90,
-          "mark": null
-        },
-        {
-          "x": 18,
-          "y": 8,
-          "value": "wall",
-          "rotation": 90,
-          "mark": null
-        },
-        {
-          "x": 0,
-          "y": 7,
-          "value": "wall",
-          "rotation": 0,
-          "mark": "door_v_1r"
-        }
-      ]
-    },
-    {
-      "cells": [
-        {
-          "x": 12,
-          "y": 5,
-          "value": "explored",
-          "mark": "elevator"
-        },
-        {
-          "x": 11,
-          "y": 5,
-          "value": "explored",
-          "mark": null
-        },
-        {
-          "x": 10,
-          "y": 5,
-          "value": "explored",
-          "mark": null
-        },
-        {
-          "x": 10,
+          "x": 8,
           "y": 6,
-          "value": "explored",
-          "mark": null
-        },
-        {
-          "x": 10,
-          "y": 7,
-          "value": "explored",
-          "mark": null
-        },
-        {
-          "x": 11,
-          "y": 7,
-          "value": "darkness",
-          "mark": null
-        },
-        {
-          "x": 11,
-          "y": 8,
-          "value": "darkness",
+          "value": "wall",
+          "rotation": 90,
           "mark": null
         },
         {
           "x": 8,
           "y": 8,
-          "value": null,
-          "mark": "qmark"
-        }
-      ],
-      "edges": [
+          "value": "wall",
+          "rotation": 90,
+          "mark": "door_sec"
+        },
         {
-          "x": 11,
-          "y": 5,
+          "x": 15,
+          "y": 11,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 16,
+          "y": 11,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 15,
+          "y": 12,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 16,
+          "y": 12,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 9,
+          "y": 6,
           "value": "wall",
           "rotation": 90,
           "mark": null
         },
         {
           "x": 10,
-          "y": 5,
-          "value": "wall",
-          "rotation": 90,
-          "mark": null
-        },
-        {
-          "x": 10,
-          "y": 5,
+          "y": 6,
           "value": "wall",
           "rotation": 0,
           "mark": null
         },
         {
           "x": 10,
-          "y": 6,
+          "y": 7,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 9,
+          "y": 8,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 17,
+          "y": 11,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 9,
+          "y": 12,
           "value": "wall",
           "rotation": 0,
           "mark": null
@@ -373,51 +905,836 @@
     {
       "cells": [
         {
+          "x": 16,
+          "y": 11,
+          "value": "explored",
+          "mark": "ladder_up",
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 16,
+          "y": 12,
+          "value": "water",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 15,
+          "y": 12,
+          "value": "water",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 15,
+          "y": 11,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 15,
+          "y": 10,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 16,
+          "y": 10,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 15,
+          "y": 9,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
           "x": 9,
           "y": 6,
           "value": "explored",
-          "mark": null
+          "mark": "chute_bottom",
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 8,
+          "y": 5,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 9,
+          "y": 5,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 10,
+          "y": 5,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 10,
+          "y": 6,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 10,
+          "y": 7,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
         },
         {
           "x": 9,
           "y": 7,
           "value": "explored",
-          "mark": null
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 8,
+          "y": 7,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 8,
+          "y": 6,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 8,
+          "y": 4,
+          "value": "darkness",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 10,
+          "y": 4,
+          "value": "darkness",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 11,
+          "y": 4,
+          "value": "darkness",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 11,
+          "y": 5,
+          "value": "darkness",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 11,
+          "y": 7,
+          "value": "darkness",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 11,
+          "y": 8,
+          "value": "darkness",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 10,
+          "y": 8,
+          "value": "darkness",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 8,
+          "y": 8,
+          "value": "darkness",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 7,
+          "y": 8,
+          "value": "darkness",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 7,
+          "y": 7,
+          "value": "darkness",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 7,
+          "y": 5,
+          "value": "darkness",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 7,
+          "y": 4,
+          "value": "darkness",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 11,
+          "y": 6,
+          "value": "darkness",
+          "mark": "rotate_random",
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 9,
+          "y": 4,
+          "value": "darkness",
+          "mark": "rotate_random",
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 7,
+          "y": 6,
+          "value": "darkness",
+          "mark": "rotate_random",
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 9,
+          "y": 8,
+          "value": "darkness",
+          "mark": "rotate_random",
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 7,
+          "y": 3,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 8,
+          "y": 3,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 9,
+          "y": 3,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 10,
+          "y": 3,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 11,
+          "y": 3,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 12,
+          "y": 4,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 12,
+          "y": 5,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 12,
+          "y": 6,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 12,
+          "y": 7,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 12,
+          "y": 8,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 11,
+          "y": 9,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 10,
+          "y": 9,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 9,
+          "y": 9,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 8,
+          "y": 9,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 7,
+          "y": 9,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 6,
+          "y": 8,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 6,
+          "y": 7,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 6,
+          "y": 6,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 6,
+          "y": 5,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 6,
+          "y": 4,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 9,
+          "y": 10,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 9,
+          "y": 11,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 10,
+          "y": 11,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 11,
+          "y": 11,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 12,
+          "y": 11,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 13,
+          "y": 11,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 14,
+          "y": 11,
+          "value": "explored",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 9,
+          "y": 12,
+          "value": "water",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 10,
+          "y": 12,
+          "value": "water",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 11,
+          "y": 12,
+          "value": "water",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 12,
+          "y": 12,
+          "value": "water",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 13,
+          "y": 12,
+          "value": "water",
+          "mark": null,
+          "label": null,
+          "labelFill": null
+        },
+        {
+          "x": 14,
+          "y": 12,
+          "value": "water",
+          "mark": null,
+          "label": null,
+          "labelFill": null
         }
       ],
       "edges": [
         {
+          "x": 17,
+          "y": 11,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 15,
+          "y": 10,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 15,
+          "y": 9,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 16,
+          "y": 9,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 16,
+          "y": 10,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 17,
+          "y": 10,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 15,
+          "y": 9,
+          "value": "wall",
+          "rotation": 90,
+          "mark": "door_locked"
+        },
+        {
+          "x": 7,
+          "y": 9,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 7,
+          "y": 10,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 8,
+          "y": 10,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
           "x": 10,
+          "y": 10,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 11,
+          "y": 10,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 12,
+          "y": 9,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 9,
+          "y": 10,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 9,
+          "y": 11,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 14,
+          "y": 11,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 13,
+          "y": 11,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 12,
+          "y": 11,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 11,
+          "y": 11,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 10,
+          "y": 11,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 10,
+          "y": 10,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 12,
+          "y": 9,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 13,
+          "y": 8,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 13,
           "y": 7,
-          "value": null,
-          "rotation": 180,
-          "mark": "door_sec_r"
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 13,
+          "y": 6,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 13,
+          "y": 5,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 13,
+          "y": 4,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 12,
+          "y": 4,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 7,
+          "y": 3,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 7,
+          "y": 3,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 8,
+          "y": 3,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 9,
+          "y": 3,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 10,
+          "y": 3,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 11,
+          "y": 3,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 12,
+          "y": 3,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 6,
+          "y": 4,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 6,
+          "y": 4,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 6,
+          "y": 5,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 6,
+          "y": 6,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 6,
+          "y": 7,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 6,
+          "y": 8,
+          "value": "wall",
+          "rotation": 0,
+          "mark": null
+        },
+        {
+          "x": 6,
+          "y": 9,
+          "value": "wall",
+          "rotation": 90,
+          "mark": null
+        },
+        {
+          "x": 9,
+          "y": 10,
+          "value": "wall",
+          "rotation": 90,
+          "mark": "door_sec"
+        },
+        {
+          "x": 15,
+          "y": 11,
+          "value": "wall",
+          "rotation": 0,
+          "mark": "door_v_1r"
         }
       ]
-    },
-    {
-      "cells": [],
-      "edges": []
-    },
-    {
-      "cells": [],
-      "edges": []
-    },
-    {
-      "cells": [],
-      "edges": []
-    },
-    {
-      "cells": [],
-      "edges": []
-    },
-    {
-      "cells": [],
-      "edges": []
-    },
-    {
-      "cells": [],
-      "edges": []
     },
     {
       "cells": [],
