@@ -244,10 +244,11 @@ button#savebtn {
 #floors button.current {
     padding:3px;
 }
-
-.warningbtn {
+button.warning {
+    float: right;
+}
+.warning {
     color: var(--color-err);
-    float:right;
 }
 
 #footer {
