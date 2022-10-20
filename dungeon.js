@@ -151,12 +151,6 @@ window.onload = function() {
     canvas.onselectstart = function () { return false; }
 }
 
-function redrawCanvas() {
-    canvas.width = WIDTH*PX_CELL;
-    canvas.height = HEIGHT*PX_CELL;
-    drawGrid();
-}
-
 function toggleTheme() {
     var isDark = document.getElementById("darkmode").checked;
     var theme = isDark ? "theme-dark" : "theme-light"
@@ -979,6 +973,12 @@ function moveRight() {
 
 //////////////////////////////////////////////////
 // Map Drawing
+
+function redrawCanvas() {
+    canvas.width = WIDTH*PX_CELL;
+    canvas.height = HEIGHT*PX_CELL;
+    drawGrid();
+}
 
 function redrawMap() {
     // Clear and re-draw with current data
