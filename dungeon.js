@@ -491,8 +491,10 @@ function parseMapText(text) {
     var values = JSON.parse(text);
     console.log("loaded map",values);
 
-    // TODO: configurable width/height
+    // TODO: independently configurable width/height
     FLOORS = values.config.map.floors;
+    HEIGHT = values.config.map.height;
+    WIDTH = values.config.map.width;
 
     cellTypes = values.config.cellTypes;
     edgeTypes = values.config.edgeTypes;
@@ -502,6 +504,7 @@ function parseMapText(text) {
     currentFloor = 0;
 
     createPalette();
+    redrawCanvas();
     redrawMap();
 }
 
