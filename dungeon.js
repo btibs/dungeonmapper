@@ -60,8 +60,12 @@ const ALL_EDGE_MARKS = {
     "door_v_1r": "markers/door_v_1r.png",
     "door_v_1l": "markers/door_v_1l.png",
     "door_sec": "markers/door_sec.png",
-    "door_sec_l": "markers/door_sec_1l.png",
-    "door_sec_r": "markers/door_sec_1r.png",
+    "door_sec_1l": "markers/door_sec_1l.png",
+    "door_sec_1r": "markers/door_sec_1r.png",
+    "door_locked_l": "markers/door_locked_l.png",
+    "door_locked_r": "markers/door_locked_r.png",
+    "door_locked_1l": "markers/door_locked_1l.png",
+    "door_locked_1r": "markers/door_locked_1r.png",
     "oneway_wall_1": "markers/oneway_wall_1.png",
     "oneway_wall_2": "markers/oneway_wall_2.png",
     "collapsable_wall": "markers/collapsable_wall.png"
@@ -108,9 +112,7 @@ var edgeMarkTypes = {
     "door_locked": "markers/door_locked.png",
     "door_v_1r": "markers/door_v_1r.png",
     "door_v_1l": "markers/door_v_1l.png",
-    "door_sec": "markers/door_sec.png",
-    "door_sec_l": "markers/door_sec_1l.png",
-    "door_sec_r": "markers/door_sec_1r.png"
+    "door_sec": "markers/door_sec.png"
 }
 
 // Tool Selection
